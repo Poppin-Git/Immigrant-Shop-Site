@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1 { color: #333; margin-bottom: 20px; }
+    h3 { color: #555; margin-top: 25px; margin-bottom: 15px; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+    .nav { margin-bottom: 20px; }
+    .nav a { margin-right: 15px; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+    .nav a:hover { background: #0056b3; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+    .checkbox-group { display: flex; align-items: center; margin-bottom: 10px; }
+    .checkbox-group input { width: auto; margin-right: 10px; }
+    .discount-checklist { background: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #ddd; }
+    .discount-item { margin-bottom: 10px; padding: 8px; background: white; border-radius: 4px; }
+    .discount-item label { margin-bottom: 0; display: flex; align-items: center; }
+    .discount-item input { width: auto; margin-right: 10px; }
+    .discount-info { color: #666; font-size: 0.9em; margin-left: 25px; }
+    .no-discounts { color: #999; font-style: italic; }
+    button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #218838; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><%= title %></h1>
+
+    <div class="nav">
+      <a href="/admin/products">Back to Products</a>
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/auth/logout">Logout</a>
+    </div>
+
+    <form method="POST" action="/admin/products/new">
+      <div class="form-group">
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+      </div>
+
+      <div class="form-group">
+        <label for="discount">Discount (%):</label>
+        <input type="number" id="discount" name="discount" min="0" max="100" step="0.01" value="0">
+      </div>
+
+      <div class="form-group">
+        <label for="imageUrl">Image URL (optional):</label>
+        <input type="url" id="imageUrl" name="imageUrl">
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+          <option value="all">None</option>
+          <option value="new">New</option>
+          <option value="popular">Popular</option>
+          <option value="sale">On Sale (Manual)</option>
+        </select>
+      </div>
+
+      <h3>Apply Discounts</h3>
+      <div class="discount-checklist">
+        <% if (discounts && discounts.length > 0) { %>
+          <% discounts.forEach(function(disc) { %>
+            <div class="discount-item">
+              <label>
+                <input type="checkbox" name="discount_ids" value="<%= disc.id %>">
+                <strong><%= disc.code %></strong> - <%= disc.name %>
+              </label>
+              <div class="discount-info">
+                <%= disc.type === 'percentage' ? disc.value + '%' : '$' + disc.value %> off
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p class="no-discounts">No active discounts available. <a href="/admin/discounts/create">Create one</a></p>
+        <% } %>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-group">
+          <input type="checkbox" id="isActive" name="isActive" checked>
+          Active (visible on public site)
+        </label>
+      </div>
+
+      <button type="submit">Create Product</button>
+    </form>
+  </div>
+</body>
+</html>

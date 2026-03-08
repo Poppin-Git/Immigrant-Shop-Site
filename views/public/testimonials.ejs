@@ -1,0 +1,10 @@
+<h1><%= title %></h1>
+
+<div class="testimonials">
+  <% testimonials.forEach(testimonial => { %>
+    <div class="testimonial-card">
+      <p>"<%= testimonial.text %>"</p>
+      <cite>- <%= testimonial.name %></cite>
+    </div>
+  <% }); %>
+</div>

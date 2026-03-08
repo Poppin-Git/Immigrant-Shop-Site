@@ -1,0 +1,121 @@
+<h2>Admin Profile</h2>
+
+<div class="profile-card">
+  <div class="profile-field">
+    <strong>Email Address:</strong>
+    <p><%= email %></p>
+  </div>
+
+  <div class="profile-field">
+    <strong>Role:</strong>
+    <p><span class="role-badge"><%= role %></span></p>
+  </div>
+
+  <div class="profile-field">
+    <strong>Last Login:</strong>
+    <p><%= lastLogin %></p>
+  </div>
+</div>
+
+<div class="profile-actions">
+  <a href="/admin/changePassword" class="btn btn-primary">Change Password</a>
+  <a href="/admin/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+<style>
+.profile-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.profile-field {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-field:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.profile-field strong {
+  display: block;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.profile-field p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #34495e;
+}
+
+.role-badge {
+  background: #3498db;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.3s;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+}
+
+.btn-secondary {
+  background: #95a5a6;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #7f8c8d;
+}
+
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 1.5rem;
+  }
+  
+  .profile-actions {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+</style>

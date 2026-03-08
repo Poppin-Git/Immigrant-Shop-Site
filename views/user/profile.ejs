@@ -1,0 +1,28 @@
+<div class="page">
+    <h2>User Profile</h2>
+
+    <div class="card">
+        <h3>Account Information</h3>
+        <dl>
+            <dt>Email:</dt>
+            <dd><%= user.email %></dd>
+
+            <dt>Role:</dt>
+            <dd><%= user.role %></dd>
+
+            <dt>Status:</dt>
+            <dd><%= user.isActive ? 'Active' : 'Inactive' %></dd>
+
+            <dt>Created At:</dt>
+            <dd><%= new Date(user.createdAt.toDate()).toLocaleString() %></dd>
+
+            <dt>Last Updated:</dt>
+            <dd><%= new Date(user.updatedAt.toDate()).toLocaleString() %></dd>
+        </dl>
+    </div>
+
+    <div class="card">
+        <h3>Actions</h3>
+        <a href="/auth/logout" class="btn">Logout</a>
+    </div>
+</div>

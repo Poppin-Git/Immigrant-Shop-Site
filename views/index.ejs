@@ -1,0 +1,24 @@
+<div class="page">
+    <h2>Welcome to Firebase Express App</h2>
+    <p>This is a server-rendered Node.js + Express web application using Firebase Firestore.</p>
+
+    <% if (typeof user !== 'undefined' && user) { %>
+        <div class="card">
+            <h3>You are logged in</h3>
+            <p>Email: <%= user.email %></p>
+            <p>Role: <%= user.role %></p>
+            <% if (user.role === 'admin') { %>
+                <a href="/admin/dashboard" class="btn">Go to Admin Dashboard</a>
+            <% } else { %>
+                <a href="/user/profile" class="btn">View Your Profile</a>
+            <% } %>
+        </div>
+    <% } else { %>
+        <div class="card">
+            <h3>Get Started</h3>
+            <p>Log in or register to access your account.</p>
+            <a href="/auth/login" class="btn">Login</a>
+            <a href="/auth/register" class="btn">Register</a>
+        </div>
+    <% } %>
+</div>

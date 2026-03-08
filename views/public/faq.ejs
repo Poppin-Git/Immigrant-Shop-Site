@@ -1,0 +1,10 @@
+<h1><%= title %></h1>
+
+<div class="faq">
+  <% faqs.forEach(faq => { %>
+    <div class="faq-item">
+      <h3><%= faq.question %></h3>
+      <p><%= faq.answer %></p>
+    </div>
+  <% }); %>
+</div>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1 { color: #333; margin-bottom: 20px; }
+    .nav { margin-bottom: 20px; }
+    .nav a { margin-right: 15px; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+    .nav a:hover { background: #0056b3; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background-color: #f8f9fa; font-weight: bold; }
+    .log-type { font-weight: bold; }
+    .log-login { color: #28a745; }
+    .log-logout { color: #6c757d; }
+    .log-error { color: #dc3545; }
+    .log-register { color: #007bff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><%= title %></h1>
+
+    <div class="nav">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/users">Manage Admins</a>
+      <a href="/auth/logout">Logout</a>
+    </div>
+
+    <% if (logs && logs.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Message</th>
+            <th>User</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% logs.forEach(log => { %>
+            <tr>
+              <td class="log-type <%= log.type.toLowerCase().includes('login') ? 'log-login' : log.type.toLowerCase().includes('logout') ? 'log-logout' : log.type.toLowerCase().includes('error') ? 'log-error' : 'log-register' %>">
+                <%= log.type %>
+              </td>
+              <td><%= log.message %></td>
+              <td><%= log.userId ? log.userId : '-' %></td>
+              <td><%= new Date(log.createdAt.toDate()).toLocaleString() %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No logs found.</p>
+    <% } %>
+  </div>
+</body>
+</html>

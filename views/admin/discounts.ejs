@@ -1,0 +1,269 @@
+<div class="admin-content">
+  <div class="content-header">
+    <h1>Discount Management</h1>
+    <a href="/admin/discounts/create" class="btn btn-primary">+ Create Discount</a>
+  </div>
+
+  <div class="discount-stats">
+    <div class="stat-card">
+      <h3>Total Discounts</h3>
+      <p class="stat-value"><%= discounts ? discounts.length : 0 %></p>
+    </div>
+    <div class="stat-card">
+      <h3>Active Discounts</h3>
+      <p class="stat-value"><%= discounts ? discounts.filter(d => d.active).length : 0 %></p>
+    </div>
+    <div class="stat-card">
+      <h3>Discounted Products</h3>
+      <p class="stat-value"><%= discountedCount %></p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Uses</h3>
+      <p class="stat-value"><%= discounts ? discounts.reduce((sum, d) => sum + (d.currentUses || 0), 0) : 0 %></p>
+    </div>
+  </div>
+
+  <% if (discounts && discounts.length > 0) { %>
+    <div class="discounts-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Status</th>
+            <th>Uses</th>
+            <th>Expiry</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% discounts.forEach(discount => { %>
+            <tr>
+              <td><code><%= discount.code %></code></td>
+              <td><%= discount.name %></td>
+              <td>
+                <span class="badge <%= discount.type === 'percentage' ? 'badge-info' : 'badge-success' %>">
+                  <%= discount.type === 'percentage' ? 'Percentage' : 'Fixed Amount' %>
+                </span>
+              </td>
+              <td>
+                <% if (discount.type === 'percentage') { %>
+                  <%= discount.value %>%
+                <% } else { %>
+                  $<%= discount.value.toFixed(2) %>
+                <% } %>
+              </td>
+              <td>
+                <% if (discount.active) { %>
+                  <span class="badge badge-success">Active</span>
+                <% } else { %>
+                  <span class="badge badge-danger">Inactive</span>
+                <% } %>
+              </td>
+              <td>
+                <% if (discount.maxUses) { %>
+                  <%= discount.currentUses || 0 %> / <%= discount.maxUses %>
+                <% } else { %>
+                  <%= discount.currentUses || 0 %>
+                <% } %>
+              </td>
+              <td>
+                <% if (discount.expiryDate) { %>
+                  <%= new Date(discount.expiryDate).toLocaleDateString() %>
+                <% } else { %>
+                  <em>No expiry</em>
+                <% } %>
+              </td>
+              <td>
+                <a href="/admin/discounts/<%= discount.id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                <form method="POST" action="/admin/discounts/<%= discount.id %>/delete" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="empty-state">
+      <p>No discounts created yet.</p>
+      <a href="/admin/discounts/create" class="btn btn-primary">Create your first discount</a>
+    </div>
+  <% } %>
+</div>
+
+<style>
+.admin-content {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  min-height: 400px;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.content-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+}
+
+.discount-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #17a2b8;
+}
+
+.stat-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #17a2b8;
+  margin: 0;
+}
+
+.discounts-table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.discounts-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.discounts-table thead {
+  background: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+}
+
+.discounts-table th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.discounts-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.discounts-table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.discounts-table code {
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: monospace;
+  color: #d63384;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-info {
+  background: #e7f3ff;
+  color: #0066cc;
+}
+
+.badge-success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge-danger {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.empty-state p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+</style>

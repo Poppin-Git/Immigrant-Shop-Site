@@ -1,0 +1,289 @@
+<h1><%= title %></h1>
+<p><%= intro %></p>
+
+<% if (success) { %>
+  <div class="alert success"><%= success %></div>
+<% } %>
+
+<% if (error) { %>
+  <div class="alert error"><%= error %></div>
+<% } %>
+
+<!-- Contact Info Blocks -->
+<div class="contact-info-blocks">
+  <% if (email) { %>
+    <div class="info-block">
+      <h3>📧 Email</h3>
+      <p><a href="mailto:<%= email %>"><%= email %></a></p>
+    </div>
+  <% } %>
+  
+  <% if (phone) { %>
+    <div class="info-block">
+      <h3>📞 Phone</h3>
+      <p><a href="tel:<%= phoneRaw %>"><%= phone %></a></p>
+    </div>
+  <% } %>
+  
+  <% if (whatsappNumber) { %>
+    <div class="info-block">
+      <h3>💬 WhatsApp</h3>
+      <p><a href="https://wa.me/<%= whatsappNumber %>?text=<%= encodeURIComponent(whatsappMessage || 'Hi, I would like to know more') %>" target="_blank">Message us on WhatsApp</a></p>
+    </div>
+  <% } %>
+  
+  <% if (address && (address.street || address.city)) { %>
+    <div class="info-block">
+      <h3>📍 Address</h3>
+      <p>
+        <% if (address.street) { %><%= address.street %><br><% } %>
+        <% if (address.city) { %><%= address.city %><% } %>
+        <% if (address.state) { %>, <%= address.state %><% } %>
+        <% if (address.zip) { %> <%= address.zip %><% } %>
+        <% if (address.country) { %><br><%= address.country %><% } %>
+      </p>
+    </div>
+  <% } %>
+  
+  <% if (businessHours) { %>
+    <div class="info-block">
+      <h3>🕒 Business Hours</h3>
+      <p>
+        <% if (businessHours.weekdayDays) { %>
+          <strong><%= businessHours.weekdayDays %>:</strong><br>
+          <% if (businessHours.weekdayStart) { %><%= businessHours.weekdayStart %> - <%= businessHours.weekdayEnd %><br><% } %>
+        <% } %>
+        <% if (businessHours.weekendDays) { %>
+          <strong><%= businessHours.weekendDays %>:</strong><br>
+          <% if (businessHours.weekendStatus) { %><%= businessHours.weekendStatus %><% } %>
+        <% } %>
+      </p>
+    </div>
+  <% } %>
+</div>
+
+
+<!-- Contact Form -->
+<div class="contact-form-section">
+  <h2>Send us a Message</h2>
+  <form action="<%= formAction %>" method="POST">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+    </div>
+
+    <button type="submit"><%= submitText %></button>
+  </form>
+</div>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+h1 + p {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 2rem;
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid;
+}
+
+.alert.success {
+  background: #d4edda;
+  color: #155724;
+  border-left-color: #28a745;
+}
+
+.alert.error {
+  background: #f8d7da;
+  color: #721c24;
+  border-left-color: #dc3545;
+}
+
+.contact-info-blocks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 3rem 0;
+  padding: 0 1rem;
+}
+
+.info-block {
+  background: #f9f9f9;
+  padding: 1.75rem;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.info-block:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.info-block h3 {
+  margin: 0 0 0.75rem 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.info-block p {
+  margin: 0;
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.info-block strong {
+  display: block;
+  margin-top: 0.5rem;
+  color: #2c3e50;
+}
+
+.info-block a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.info-block a:hover {
+  text-decoration: underline;
+  color: #2980b9;
+}
+
+.contact-form-section {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.contact-form-section h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.contact-form-section button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.contact-form-section button:hover {
+  background: #218838;
+}
+
+@media (prefers-color-scheme: dark) {
+  h1, h2 {
+    color: #ecf0f1;
+  }
+
+  .info-block {
+    background: #2c3e50;
+    border-left-color: #3498db;
+    color: #ecf0f1;
+  }
+
+  .info-block h3,
+  .info-block strong {
+    color: #ecf0f1;
+  }
+
+  .info-block p {
+    color: #bdc3c7;
+  }
+
+  .info-block a {
+    color: #5dade2;
+  }
+
+  .info-block a:hover {
+    color: #85c1e9;
+  }
+
+  .form-group label {
+    color: #ecf0f1;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    background: #34495e;
+    color: #ecf0f1;
+    border-color: #555;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-info-blocks {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contact-form-section {
+    margin: 2rem 0;
+  }
+}
+</style>

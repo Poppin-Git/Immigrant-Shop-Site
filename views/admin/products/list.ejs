@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 1400px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1 { color: #333; margin-bottom: 20px; }
+    .nav { margin-bottom: 20px; }
+    .nav a { margin-right: 15px; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+    .nav a:hover { background: #0056b3; }
+    .create-btn { display: inline-block; padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; margin-bottom: 20px; }
+    .create-btn:hover { background: #218838; }
+    .filter-buttons { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+    .filter-btn { padding: 8px 15px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer; transition: all 0.3s; }
+    .filter-btn:hover { background: #f0f0f0; }
+    .filter-btn.active { background: #007bff; color: white; border-color: #007bff; }
+    .sort-controls { margin: 20px 0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+    .sort-controls label { font-weight: bold; margin: 0; }
+    .sort-controls select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; }
+    .sort-controls button { padding: 8px 15px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .sort-controls button:hover { background: #5a6268; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background-color: #f8f9fa; font-weight: bold; }
+    .status-active { color: #28a745; }
+    .status-inactive { color: #dc3545; }
+    .discount-badge { background: #e74c3c; color: white; padding: 4px 8px; border-radius: 3px; font-weight: bold; display: inline-block; font-size: 0.9em; }
+    .discount-code { background: #3498db; color: white; padding: 3px 6px; border-radius: 3px; font-size: 0.85em; margin-right: 4px; display: inline-block; }
+    .actions { display: flex; gap: 10px; }
+    .btn { padding: 5px 10px; text-decoration: none; border-radius: 4px; font-size: 0.9rem; border: 1px solid transparent; }
+    .btn-edit { background: #ffc107; color: black; }
+    .btn-edit:hover { background: #e0a800; }
+    .btn-delete { background: #dc3545; color: white; }
+    .btn-delete:hover { background: #c82333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><%= title %></h1>
+
+    <div class="nav">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/content/home">Edit Content</a>
+      <a href="/auth/logout">Logout</a>
+    </div>
+
+    <a href="/admin/products/new" class="create-btn">+ Create New Product</a>
+
+    <% if (products && products.length > 0) { %>
+      <div class="filter-buttons">
+        <button class="filter-btn active" onclick="filterByCategory('all')">All</button>
+        <button class="filter-btn" onclick="filterByCategory('none')">None</button>
+        <button class="filter-btn" onclick="filterByCategory('new')">New</button>
+        <button class="filter-btn" onclick="filterByCategory('popular')">Popular</button>
+        <button class="filter-btn" onclick="filterByCategory('sale')">On Sale</button>
+      </div>
+
+      <div class="sort-controls">
+        <label for="sortDropdown">Sort By:</label>
+        <select id="sortDropdown">
+          <option value="">-- Select Option --</option>
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
+          <option value="price-asc">Price (Low to High)</option>
+          <option value="price-desc">Price (High to Low)</option>
+          <option value="discount-asc">Discount (Low to High)</option>
+          <option value="discount-desc">Discount (High to Low)</option>
+        </select>
+        <button onclick="resetSort()">Reset</button>
+      </div>
+
+      <table id="productsTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Discount</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% products.forEach(product => { 
+            const discountPercentage = product.discount ? parseInt(product.discount) : 0;
+            const hasDiscountCodes = product.discountIds && product.discountIds.length > 0;
+            const hasAnyDiscount = discountPercentage > 0 || hasDiscountCodes;
+            const displayCategory = product.category === 'all' || !product.category ? 'all' : product.category;
+          %>
+            <tr class="product-row" 
+                data-category="<%= displayCategory %>" 
+                data-has-discount="<%= hasAnyDiscount %>"
+                data-product-name="<%= product.name %>" 
+                data-product-price="<%= product.price %>" 
+                data-discount-value="<%= discountPercentage %>">
+              <td><%= product.name %></td>
+              <td><strong><%= displayCategory === 'all' ? 'None' : (displayCategory.charAt(0).toUpperCase() + displayCategory.slice(1)) %></strong></td>
+              <td><%= product.description %></td>
+              <td>$<%= typeof product.price === 'string' ? parseFloat(product.price).toFixed(2) : product.price.toFixed(2) %></td>
+              <td>
+                <% if (hasAnyDiscount) { %>
+                  <% if (discountPercentage > 0) { %>
+                    <span class="discount-badge"><%= discountPercentage %>% OFF</span>
+                  <% } %>
+                  <% if (hasDiscountCodes) { %>
+                    <div style="margin-top: 4px;">
+                      <span style="color: #3498db; font-size: 0.85em;">+<%= product.discountIds.length %> Applied Discount<%= product.discountIds.length !== 1 ? 's' : '' %></span>
+                    </div>
+                  <% } %>
+                <% } else { %>
+                  <span style="color: #999; font-size: 0.9em;">—</span>
+                <% } %>
+              </td>
+              <td class="<%= product.isActive ? 'status-active' : 'status-inactive' %>">
+                <strong><%= product.isActive ? '✓ Active' : '✗ Inactive' %></strong>
+              </td>
+              <td class="actions">
+                <a href="/admin/products/edit/<%= product.id %>" class="btn btn-edit">Edit</a>
+                <form method="POST" action="/admin/products/delete/<%= product.id %>" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this product?')">
+                  <button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No products found. <a href="/admin/products/new">Create your first product</a>.</p>
+    <% } %>
+  </div>
+
+  <script>
+    function filterByCategory(category) {
+      const rows = document.querySelectorAll('.product-row');
+      let visibleCount = 0;
+      
+      rows.forEach(row => {
+        let show = false;
+        const rowCategory = row.dataset.category;
+        const hasDiscount = row.dataset.hasDiscount === 'true';
+        
+        if (category === 'all') {
+          // Show all products
+          show = true;
+        } else if (category === 'none') {
+          // Show only products with 'all' category
+          show = rowCategory === 'all';
+        } else if (category === 'sale') {
+          // Show products manually marked as on sale OR products with any discount
+          show = rowCategory === 'sale' || hasDiscount;
+        } else {
+          // Show products matching the category (new, popular)
+          show = rowCategory === category;
+        }
+        
+        row.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+      
+      // Update active button
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Show message if no products match
+      if (visibleCount === 0) {
+        const tbody = document.querySelector('#productsTable tbody');
+        const existingMsg = tbody.querySelector('.no-match');
+        if (!existingMsg) {
+          const tr = document.createElement('tr');
+          tr.className = 'no-match';
+          tr.innerHTML = '<td colspan="7" style="text-align: center; padding: 20px; color: #999;">No products found in this category.</td>';
+          tbody.appendChild(tr);
+        }
+      } else {
+        const existingMsg = document.querySelector('.no-match');
+        if (existingMsg) existingMsg.remove();
+      }
+    }
+
+    function sortProducts(sortOption) {
+      const table = document.getElementById('productsTable');
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr.product-row'));
+      
+      if (!sortOption) return;
+      
+      rows.sort((a, b) => {
+        const nameA = a.dataset.productName.toLowerCase();
+        const nameB = b.dataset.productName.toLowerCase();
+        const priceA = parseFloat(a.dataset.productPrice);
+        const priceB = parseFloat(b.dataset.productPrice);
+        const discountA = parseInt(a.dataset.discountValue) || 0;
+        const discountB = parseInt(b.dataset.discountValue) || 0;
+        
+        switch(sortOption) {
+          case 'name-asc':
+            return nameA.localeCompare(nameB);
+          case 'name-desc':
+            return nameB.localeCompare(nameA);
+          case 'price-asc':
+            return priceA - priceB;
+          case 'price-desc':
+            return priceB - priceA;
+          case 'discount-asc':
+            return discountA - discountB;
+          case 'discount-desc':
+            return discountB - discountA;
+          default:
+            return 0;
+        }
+      });
+      
+      tbody.innerHTML = '';
+      rows.forEach(row => {
+        tbody.appendChild(row);
+      });
+    }
+
+    function resetSort() {
+      document.getElementById('sortDropdown').value = '';
+      location.reload();
+    }
+
+    document.getElementById('sortDropdown').addEventListener('change', function() {
+      sortProducts(this.value);
+    });
+  </script>
+</body>
+</html>

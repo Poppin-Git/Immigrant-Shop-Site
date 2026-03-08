@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1 { color: #333; margin-bottom: 20px; }
+    h2 { color: #666; margin-top: 30px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd; }
+    .nav { margin-bottom: 20px; }
+    .nav a { margin-right: 15px; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+    .nav a:hover { background: #0056b3; }
+    .form-group { margin-bottom: 15px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+    input, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+    textarea { resize: vertical; }
+    button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    button:hover { background: #218838; }
+    .form-section { background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><%= title %></h1>
+
+    <div class="nav">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/content/home">Edit Home</a>
+      <a href="/admin/content/about">Edit About</a>
+      <a href="/admin/products">Manage Products</a>
+      <a href="/auth/logout">Logout</a>
+    </div>
+
+    <form method="POST" action="/admin/content/contact">
+      <h2>Page Content</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="title">Contact Page Title:</label>
+          <input type="text" id="title" name="title" value="<%= content.title %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="intro">Contact Introduction:</label>
+          <textarea id="intro" name="intro" rows="3" required><%= content.intro %></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="submitText">Submit Button Text:</label>
+          <input type="text" id="submitText" name="submitText" value="<%= content.submitText || 'Send Message' %>" required>
+        </div>
+      </div>
+
+      <h2>Contact Information</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="email">Email Address:</label>
+          <input type="email" id="email" name="email" value="<%= content.email %>" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone (Display Format):</label>
+            <input type="text" id="phone" name="phone" value="<%= content.phone %>" placeholder="e.g., +1 (234) 567-890" required>
+          </div>
+          <div class="form-group">
+            <label for="phoneRaw">Phone (Dial Format):</label>
+            <input type="tel" id="phoneRaw" name="phoneRaw" value="<%= content.phoneRaw %>" placeholder="e.g., +1234567890" required>
+          </div>
+        </div>
+      </div>
+
+      <h2>WhatsApp Information</h2>
+      <div class="form-section">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="whatsappNumber">WhatsApp Number:</label>
+            <input type="tel" id="whatsappNumber" name="whatsappNumber" value="<%= content.whatsappNumber %>" placeholder="e.g., +1234567890" required>
+          </div>
+          <div class="form-group">
+            <label for="whatsappMessage">WhatsApp Default Message:</label>
+            <input type="text" id="whatsappMessage" name="whatsappMessage" value="<%= content.whatsappMessage %>" placeholder="e.g., Hi, I would like to know more" required>
+          </div>
+        </div>
+      </div>
+
+      <h2>Address</h2>
+      <div class="form-section">
+        <div class="form-group form-row full">
+          <label for="addressStreet">Street Address:</label>
+          <input type="text" id="addressStreet" name="addressStreet" value="<%= content.address?.street || '' %>" placeholder="123 Business Street" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="addressCity">City:</label>
+            <input type="text" id="addressCity" name="addressCity" value="<%= content.address?.city || '' %>" placeholder="New York" required>
+          </div>
+          <div class="form-group">
+            <label for="addressState">State/Province:</label>
+            <input type="text" id="addressState" name="addressState" value="<%= content.address?.state || '' %>" placeholder="NY" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="addressZip">ZIP/Postal Code:</label>
+            <input type="text" id="addressZip" name="addressZip" value="<%= content.address?.zip || '' %>" placeholder="10001" required>
+          </div>
+          <div class="form-group">
+            <label for="addressCountry">Country:</label>
+            <input type="text" id="addressCountry" name="addressCountry" value="<%= content.address?.country || '' %>" placeholder="United States" required>
+          </div>
+        </div>
+      </div>
+
+      <h2>Business Hours</h2>
+      <div class="form-section">
+        <div class="form-row full">
+          <label for="businessHoursWeekday">Weekday Label:</label>
+          <input type="text" id="businessHoursWeekday" name="businessHoursWeekday" value="<%= content.businessHours?.weekdayDays || 'Monday - Friday' %>" placeholder="Monday - Friday" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="businessHoursWeekdayStart">Opening Time:</label>
+            <input type="text" id="businessHoursWeekdayStart" name="businessHoursWeekdayStart" value="<%= content.businessHours?.weekdayStart || '9:00 AM' %>" placeholder="9:00 AM" required>
+          </div>
+          <div class="form-group">
+            <label for="businessHoursWeekdayEnd">Closing Time:</label>
+            <input type="text" id="businessHoursWeekdayEnd" name="businessHoursWeekdayEnd" value="<%= content.businessHours?.weekdayEnd || '5:00 PM' %>" placeholder="5:00 PM" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="businessHoursWeekendDays">Weekend Label:</label>
+            <input type="text" id="businessHoursWeekendDays" name="businessHoursWeekendDays" value="<%= content.businessHours?.weekendDays || 'Saturday - Sunday' %>" placeholder="Saturday - Sunday" required>
+          </div>
+          <div class="form-group">
+            <label for="businessHoursWeekendStatus">Weekend Status:</label>
+            <input type="text" id="businessHoursWeekendStatus" name="businessHoursWeekendStatus" value="<%= content.businessHours?.weekendStatus || 'Closed' %>" placeholder="Closed" required>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit">Update Contact Page</button>
+    </form>
+  </div>
+</body>
+</html>

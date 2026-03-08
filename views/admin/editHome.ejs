@@ -1,0 +1,66 @@
+<h1><%= title %></h1>
+
+<% if (success) { %>
+  <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; border: 1px solid #c3e6cb;">
+    ✓ <%= success %>
+  </div>
+<% } %>
+
+<% if (error) { %>
+  <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; border: 1px solid #f5c6cb;">
+    ✗ <%= error %>
+  </div>
+<% } %>
+
+<form method="POST" action="/admin/home" style="max-width: 600px;">
+  <div style="margin-bottom: 1.5rem;">
+    <label for="title" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Page Title:</label>
+    <input type="text" id="title" name="title" value="<%= content.title || 'Welcome to My App' %>" required style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+    <small style="color: #666;">This appears as the main heading on the home page</small>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <label for="subtitle" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Subtitle:</label>
+    <input type="text" id="subtitle" name="subtitle" value="<%= content.subtitle || 'Your one-stop solution' %>" required style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+    <small style="color: #666;">Secondary heading displayed below the title</small>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <label for="description" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description:</label>
+    <textarea id="description" name="description" required style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; min-height: 100px;"><%= content.description || 'Discover amazing products and services.' %></textarea>
+    <small style="color: #666;">Brief description of your products/services</small>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <label for="productsLink" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Products Button Text:</label>
+    <input type="text" id="productsLink" name="productsLink" value="<%= content.productsLink || 'View Our Products' %>" required style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+    <small style="color: #666;">Text displayed on the button linking to products page</small>
+  </div>
+
+  <div style="background: #f0f0f0; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+    <h3 style="margin-top: 0;">ℹ️ Note:</h3>
+    <p style="margin: 0.5rem 0;">The Featured Products, Bestsellers, and New Arrivals sections are automatically populated from your product database and cannot be edited here. They dynamically pull the latest products based on discounts, popularity, and creation date.</p>
+  </div>
+
+  <div style="display: flex; gap: 1rem;">
+    <button type="submit" style="padding: 0.75rem 1.5rem; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem;">Save Changes</button>
+    <a href="/admin/dashboard" style="padding: 0.75rem 1.5rem; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 1rem;">Cancel</a>
+  </div>
+</form>
+
+<style>
+  form {
+    margin-top: 2rem;
+  }
+  input[type="text"], textarea {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  label {
+    color: #333;
+  }
+  small {
+    display: block;
+    margin-top: 0.25rem;
+  }
+</style>

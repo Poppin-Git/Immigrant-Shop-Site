@@ -1,0 +1,17 @@
+<h2>Activity Log</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% activities.forEach(activity => { %>
+      <tr>
+        <td><%= activity.action %></td>
+        <td><%= activity.date %></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>

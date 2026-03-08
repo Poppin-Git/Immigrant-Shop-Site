@@ -1,0 +1,142 @@
+<h1><%= title %></h1>
+<p><%= intro %></p>
+
+<div class="settings-container">
+  <!-- Company Information Section -->
+  <div class="settings-section">
+    <h2>Company Information</h2>
+    <div class="info-grid">
+      <div class="info-item">
+        <h3>Company Name</h3>
+        <p><%= companyName %></p>
+      </div>
+      <div class="info-item">
+        <h3>Email</h3>
+        <p><a href="mailto:<%= companyEmail %>"><%= companyEmail %></a></p>
+      </div>
+      <div class="info-item">
+        <h3>Phone</h3>
+        <p><a href="tel:<%= companyPhone %>"><%= companyPhone %></a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Policy Section -->
+  <div class="settings-section">
+    <h2><%= privacyPolicyTitle %></h2>
+    <p><%= privacyPolicyContent %></p>
+  </div>
+
+  <!-- Terms of Service Section -->
+  <div class="settings-section">
+    <h2><%= termsOfServiceTitle %></h2>
+    <p><%= termsOfServiceContent %></p>
+  </div>
+
+  <!-- About Section -->
+  <div class="settings-section">
+    <h2><%= aboutTitle %></h2>
+    <p><%= aboutContent %></p>
+  </div>
+
+  <!-- Returns & Refunds Section -->
+  <div class="settings-section">
+    <h2><%= returnsTitle %></h2>
+    <p><%= returnsContent %></p>
+  </div>
+</div>
+
+<style>
+.settings-container {
+  max-width: 900px;
+  margin: 2rem 0;
+}
+
+.settings-section {
+  background: #f9f9f9;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+}
+
+.settings-section h2 {
+  margin-top: 0;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.settings-section p {
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+}
+
+.info-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.info-item h3 {
+  margin: 0 0 0.5rem 0;
+  color: #3498db;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-item p {
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.info-item a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.info-item a:hover {
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .settings-section {
+    background: #445a6f;
+    border-left-color: #5dade2;
+  }
+
+  .settings-section h2 {
+    color: #ecf0f1;
+  }
+
+  .settings-section p {
+    color: #bdc3c7;
+  }
+
+  .info-item {
+    background: #2c3e50;
+  }
+
+  .info-item h3 {
+    color: #5dade2;
+  }
+
+  .info-item p {
+    color: #ecf0f1;
+  }
+
+  .info-item a {
+    color: #5dade2;
+  }
+}
+</style>

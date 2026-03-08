@@ -1,0 +1,285 @@
+<h1>Admin Dashboard</h1>
+<p>Welcome, <%= adminEmail %>!</p>
+
+<!-- SECTION A: OVERVIEW WIDGETS -->
+<!-- Widget Foundation: Each card has unique ID and data attributes for future Firestore integration -->
+<!-- Pattern: id="widget-{section}-{metric}" data-metric="{field}" data-source="firestore" data-collection="{collection}" -->
+<!-- Future: Connect to Firestore to auto-update values on this dashboard -->
+<div class="dashboard-section">
+  <h2>Overview</h2>
+  <div class="dashboard-grid">
+    <div class="card" id="widget-overview-products" data-metric="totalProducts" data-source="firestore" data-collection="products" data-field="count">
+      <h3>Total Products</h3>
+      <p class="stat-number"><%= totalProducts %></p>
+      <span class="stat-label">Active products</span>
+    </div>
+    <div class="card" id="widget-overview-messages" data-metric="totalMessages" data-source="firestore" data-collection="messages" data-field="count">
+      <h3>Total Messages</h3>
+      <p class="stat-number"><%= totalMessages %></p>
+      <span class="stat-label">Contact form submissions</span>
+    </div>
+    <div class="card" id="widget-overview-categories" data-metric="totalCategories" data-source="firestore" data-collection="products" data-field="categories">
+      <h3>Total Categories</h3>
+      <p class="stat-number">4</p>
+      <span class="stat-label">Product categories</span>
+    </div>
+    <div class="card" id="widget-overview-admins" data-metric="totalAdmins" data-source="firestore" data-collection="users" data-field="role">
+      <h3>Total Admins</h3>
+      <p class="stat-number"><%= totalAdmins %></p>
+      <span class="stat-label">Active administrators</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION B: ENGAGEMENT WIDGETS -->
+<div class="dashboard-section">
+  <h2>Engagement Metrics</h2>
+  <div class="dashboard-grid">
+    <div class="card" id="widget-engagement-visitors" data-metric="todayVisitors" data-source="firestore" data-collection="analytics" data-field="visitorCount">
+      <h3>Today's Visitors</h3>
+      <p class="stat-number">342</p>
+      <span class="stat-label">Unique visitors</span>
+    </div>
+    <div class="card" id="widget-engagement-weekly" data-metric="weeklyViews" data-source="firestore" data-collection="analytics" data-field="weeklyPageViews">
+      <h3>Weekly Page Views</h3>
+      <p class="stat-number">8,543</p>
+      <span class="stat-label">All pages combined</span>
+    </div>
+    <div class="card" id="widget-engagement-bounce" data-metric="bounceRate" data-source="firestore" data-collection="analytics" data-field="bounceRate">
+      <h3>Bounce Rate</h3>
+      <p class="stat-number">32%</p>
+      <span class="stat-label">Average bounce rate</span>
+    </div>
+    <div class="card" id="widget-engagement-conversion" data-metric="conversionRate" data-source="firestore" data-collection="analytics" data-field="conversionRate">
+      <h3>Conversion Rate</h3>
+      <p class="stat-number">4.2%</p>
+      <span class="stat-label">Purchase conversion</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION C: SHOP WIDGETS -->
+<div class="dashboard-section">
+  <h2>Shop Status</h2>
+  <div class="dashboard-grid">
+    <div class="card" id="widget-shop-featured" data-metric="featuredProducts" data-source="firestore" data-collection="products" data-field="featured">
+      <h3>Featured Products</h3>
+      <p class="stat-number">8</p>
+      <span class="stat-label">Highlighted items</span>
+    </div>
+    <div class="card" id="widget-shop-hidden" data-metric="hiddenProducts" data-source="firestore" data-collection="products" data-field="active">
+      <h3>Hidden Products</h3>
+      <p class="stat-number">3</p>
+      <span class="stat-label">Inactive products</span>
+    </div>
+    <div class="card" id="widget-shop-discounted" data-metric="discountedProducts" data-source="firestore" data-collection="products" data-field="discount">
+      <h3>Discounted Products</h3>
+      <p class="stat-number" id="discounted-count">0</p>
+      <span class="stat-label">Items on sale</span>
+    </div>
+    <div class="card" id="widget-shop-outofstock\" data-metric=\"outOfStockProducts\" data-source=\"firestore\" data-collection=\"products\" data-field=\"stock\">
+      <h3>Out of Stock</h3>
+      <p class="stat-number\"><%= outOfStockProducts %></p>
+      <span class="stat-label\">Unavailable items</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION D: SYSTEM WIDGETS -->
+<div class="dashboard-section">
+  <h2>System Information</h2>
+  <div class="dashboard-grid">
+    <div class="card" id="widget-system-lastlogin" data-metric="lastLogin" data-source="firestore" data-collection="users" data-field="lastLogin">
+      <h3>Last Login</h3>
+      <p class="stat-text">2 hours ago</p>
+      <span class="stat-label">Your last session</span>
+    </div>
+    <div class="card" id="widget-system-status" data-metric="systemStatus" data-source="firestore" data-collection="settings" data-field="status">
+      <h3>System Status</h3>
+      <p class="stat-status online">● Online</p>
+      <span class="stat-label">All systems operational</span>
+    </div>
+    <div class="card" id="widget-system-storage" data-metric="storageUsage" data-source="firestore" data-collection="settings" data-field="storageUsed">
+      <h3>Storage Usage</h3>
+      <p class="stat-number">2.4 GB</p>
+      <span class="stat-label">of 10 GB allocated</span>
+    </div>
+    <div class="card" id="widget-system-version" data-metric="versionNumber" data-source="firestore" data-collection="settings" data-field="version">
+      <h3>Version Number</h3>
+      <p class="stat-text">v1.0.0</p>
+      <span class="stat-label">Current system version</span>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="quick-actions">
+  <h3>Quick Actions</h3>
+  <a href="/admin/products" class="btn btn-primary">📦 Manage Products</a>
+  <a href="/admin/discounts" class="btn btn-secondary">🏷️ Manage Discounts</a>
+  <a href="/admin/messages" class="btn btn-secondary">💌 View Messages</a>
+  <a href="/admin/content/home" class="btn btn-secondary">📝 Edit Homepage</a>
+  <a href="/admin/content/contact" class="btn btn-secondary">💬 Edit Contact Page</a>
+  <a href="/admin/content/settings" class="btn btn-secondary">📋 Edit Company Info</a>
+  <a href="/admin/settings" class="btn btn-secondary">⚙️ System Settings</a>
+</div>
+
+<style>
+.dashboard-section {
+  margin-bottom: 3rem;
+}
+.dashboard-section h2 {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #3498db;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.card h3 {
+  margin: 0 0 1rem 0;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #3498db;
+  margin: 0.5rem 0;
+}
+.stat-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 0.5rem 0;
+}
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-top: 0.5rem;
+}
+.stat-status {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+.stat-status.online {
+  color: #27ae60;
+}
+.quick-actions {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 3rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.quick-actions h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 1rem;
+}
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.quick-actions a {
+  display: inline-block;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
+.btn-primary:hover {
+  background: #2980b9;
+}
+.btn-secondary {
+  background: #95a5a6;
+  color: white;
+}
+.btn-secondary:hover {
+  background: #7f8c8d;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #2c3e50;
+    color: #ecf0f1;
+    border-left-color: #3498db;
+  }
+  .card h3 {
+    color: #ecf0f1;
+  }
+  .stat-text {
+    color: #ecf0f1;
+  }
+  .stat-label {
+    color: #bdc3c7;
+  }
+  .dashboard-section h2 {
+    color: #ecf0f1;
+    border-bottom-color: #3498db;
+  }
+  .quick-actions {
+    background: #2c3e50;
+    color: #ecf0f1;
+  }
+  .quick-actions h3 {
+    color: #ecf0f1;
+    border-bottom-color: #3498db;
+  }
+}
+</style>
+
+<!-- Widget Foundation Notes:
+  Each widget card has:
+  - Unique ID: id="widget-{section}-{metric}"
+  - Data attributes for future Firestore integration:
+    - data-metric: Field name to fetch
+    - data-source: Data source (currently "firestore")
+    - data-collection: Firestore collection name
+    - data-field: Field path in document
+  
+  Future Integration Pattern (DO NOT IMPLEMENT YET):
+  1. Create /public/js/dashboard-widgets.js
+  2. Listen to firestore realtime updates
+  3. Query data from specified collection/field
+  4. Update stat-number content automatically
+  5. Example: 
+     const widget = document.getElementById('widget-overview-products');
+     const metric = widget.dataset.metric;
+     const collection = widget.dataset.collection;
+     db.collection(collection).onSnapshot(snap => {
+       const count = snap.docs.length;
+       widget.querySelector('.stat-number').textContent = count;
+     });
+-->

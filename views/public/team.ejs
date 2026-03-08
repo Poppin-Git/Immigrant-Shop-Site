@@ -1,0 +1,10 @@
+<h1><%= title %></h1>
+
+<div class="team">
+  <% members.forEach(member => { %>
+    <div class="member-card">
+      <h3><%= member.name %></h3>
+      <p><%= member.role %></p>
+    </div>
+  <% }); %>
+</div>

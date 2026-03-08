@@ -1,0 +1,18 @@
+<nav class="navbar">
+    <div class="navbar-content">
+        <a href="/" class="navbar-logo">FireApp</a>
+        <div class="navbar-menu">
+            <% if (typeof user !== 'undefined' && user) { %>
+                <span class="navbar-user">Welcome, <%= user.email %></span>
+                <% if (user.role === 'admin') { %>
+                    <a href="/admin/dashboard" class="navbar-link">Admin</a>
+                <% } %>
+                <a href="/user/profile" class="navbar-link">Profile</a>
+                <a href="/auth/logout" class="navbar-link">Logout</a>
+            <% } else { %>
+                <a href="/auth/login" class="navbar-link">Login</a>
+                <a href="/auth/register" class="navbar-link">Register</a>
+            <% } %>
+        </div>
+    </div>
+</nav>

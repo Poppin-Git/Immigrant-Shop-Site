@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1 { color: #333; margin-bottom: 20px; }
+    .nav { margin-bottom: 20px; }
+    .nav a { margin-right: 15px; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+    .nav a:hover { background: #0056b3; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+    button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #218838; }
+    .info-text { background: #e7f3ff; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><%= title %></h1>
+
+    <div class="nav">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/content/home">Edit Home</a>
+      <a href="/admin/products">Manage Products</a>
+      <a href="/auth/logout">Logout</a>
+    </div>
+
+    <div class="info-text">
+      <strong>Note:</strong> Enter image filenames (one per line). Store images in /public/images/ directory.
+    </div>
+
+    <form method="POST" action="/admin/content/gallery">
+      <div class="form-group">
+        <label for="title">Gallery Page Title:</label>
+        <input type="text" id="title" name="title" value="<%= content.title %>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="images">Gallery Images (one filename per line):</label>
+        <textarea id="images" name="images" rows="8" placeholder="image1.jpg&#10;image2.jpg&#10;image3.jpg"><% if (content.images) { %><%= content.images.join('\n') %><% } %></textarea>
+      </div>
+
+      <button type="submit">Update Gallery Page</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1 { color: #333; margin-bottom: 20px; }
+    h2 { color: #666; margin-top: 30px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd; }
+    .nav { margin-bottom: 20px; }
+    .nav a { margin-right: 15px; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+    .nav a:hover { background: #0056b3; }
+    .form-group { margin-bottom: 15px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+    input, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+    textarea { resize: vertical; }
+    button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    button:hover { background: #218838; }
+    .form-section { background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><%= title %></h1>
+
+    <div class="nav">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/content/home">Edit Home</a>
+      <a href="/admin/content/about">Edit About</a>
+      <a href="/admin/products">Manage Products</a>
+      <a href="/auth/logout">Logout</a>
+    </div>
+
+    <form method="POST" action="/admin/content/settings">
+      <h2>Page Information</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="title">Page Title:</label>
+          <input type="text" id="title" name="title" value="<%= content.title %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="intro">Page Introduction:</label>
+          <textarea id="intro" name="intro" rows="2" required><%= content.intro %></textarea>
+        </div>
+      </div>
+
+      <h2>Company Information</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="companyName">Company Name:</label>
+          <input type="text" id="companyName" name="companyName" value="<%= content.companyName %>" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="companyEmail">Company Email:</label>
+            <input type="email" id="companyEmail" name="companyEmail" value="<%= content.companyEmail %>" required>
+          </div>
+          <div class="form-group">
+            <label for="companyPhone">Company Phone:</label>
+            <input type="tel" id="companyPhone" name="companyPhone" value="<%= content.companyPhone %>" required>
+          </div>
+        </div>
+      </div>
+
+      <h2>Privacy Policy</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="privacyPolicyTitle">Privacy Policy Title:</label>
+          <input type="text" id="privacyPolicyTitle" name="privacyPolicyTitle" value="<%= content.privacyPolicyTitle %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="privacyPolicyContent">Privacy Policy Content:</label>
+          <textarea id="privacyPolicyContent" name="privacyPolicyContent" rows="4" required><%= content.privacyPolicyContent %></textarea>
+        </div>
+      </div>
+
+      <h2>Terms of Service</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="termsOfServiceTitle">Terms of Service Title:</label>
+          <input type="text" id="termsOfServiceTitle" name="termsOfServiceTitle" value="<%= content.termsOfServiceTitle %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="termsOfServiceContent">Terms of Service Content:</label>
+          <textarea id="termsOfServiceContent" name="termsOfServiceContent" rows="4" required><%= content.termsOfServiceContent %></textarea>
+        </div>
+      </div>
+
+      <h2>About Section</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="aboutTitle">About Us Title:</label>
+          <input type="text" id="aboutTitle" name="aboutTitle" value="<%= content.aboutTitle %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="aboutContent">About Us Content:</label>
+          <textarea id="aboutContent" name="aboutContent" rows="4" required><%= content.aboutContent %></textarea>
+        </div>
+      </div>
+
+      <h2>Returns & Refunds</h2>
+      <div class="form-section">
+        <div class="form-group">
+          <label for="returnsTitle">Returns & Refunds Title:</label>
+          <input type="text" id="returnsTitle" name="returnsTitle" value="<%= content.returnsTitle %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="returnsContent">Returns & Refunds Content:</label>
+          <textarea id="returnsContent" name="returnsContent" rows="4" required><%= content.returnsContent %></textarea>
+        </div>
+      </div>
+
+      <button type="submit">Update Settings Page</button>
+    </form>
+  </div>
+</body>
+</html>

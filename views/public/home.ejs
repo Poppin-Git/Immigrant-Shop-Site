@@ -1,0 +1,45 @@
+<section class="hero">
+  <h1><%= title %></h1>
+  <p><%= subtitle %></p>
+  <p><%= description %></p>
+  <p><a href="/products" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 4px;"><%= productsLink %></a></p>
+</section>
+
+<section class="featured-products">
+  <h2>Featured Products</h2>
+  <div class="products">
+    <% if (featuredProducts && featuredProducts.length > 0) { %>
+      <% featuredProducts.forEach(product => { %>
+        <%- include('../partials/_productCard', { product: product }) %>
+      <% }); %>
+    <% } else { %>
+      <p>No featured products at the moment.</p>
+    <% } %>
+  </div>
+</section>
+
+<section class="bestsellers">
+  <h2>Bestsellers</h2>
+  <div class="products">
+    <% if (bestsellers && bestsellers.length > 0) { %>
+      <% bestsellers.forEach(product => { %>
+        <%- include('../partials/_productCard', { product: product }) %>
+      <% }); %>
+    <% } else { %>
+      <p>No bestsellers at the moment.</p>
+    <% } %>
+  </div>
+</section>
+
+<section class="new-arrivals">
+  <h2>New Arrivals</h2>
+  <div class="products">
+    <% if (newArrivals && newArrivals.length > 0) { %>
+      <% newArrivals.forEach(product => { %>
+        <%- include('../partials/_productCard', { product: product }) %>
+      <% }); %>
+    <% } else { %>
+      <p>No new arrivals at the moment.</p>
+    <% } %>
+  </div>
+</section>

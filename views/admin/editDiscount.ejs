@@ -1,0 +1,309 @@
+<div class="admin-content">
+  <div class="content-header">
+    <h1>Edit Discount</h1>
+    <a href="/admin/discounts" class="btn btn-secondary">← Back to Discounts</a>
+  </div>
+
+  <form method="POST" action="/admin/discounts/<%= discount.id %>/edit" class="discount-form">
+    <div class="form-section">
+      <h2>Basic Information</h2>
+
+      <div class="form-group">
+        <label for="name">Discount Name *</label>
+        <input type="text" id="name" name="name" required placeholder="e.g., Summer Sale" value="<%= discount.name %>">
+      </div>
+
+      <div class="form-group">
+        <label for="code">Discount Code *</label>
+        <input type="text" id="code" name="code" required placeholder="e.g., SUMMER20" value="<%= discount.code %>">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Enter discount description" rows="3"><%= discount.description || '' %></textarea>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Discount Details</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="type">Type *</label>
+          <select id="type" name="type" required>
+            <option value="percentage" <%= discount.type === 'percentage' ? 'selected' : '' %>>Percentage (%)</option>
+            <option value="fixed" <%= discount.type === 'fixed' ? 'selected' : '' %>>Fixed Amount ($)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="value">Value *</label>
+          <input type="number" id="value" name="value" required placeholder="0" step="0.01" min="0" value="<%= discount.value %>">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="maxUses">Max Uses (optional)</label>
+          <input type="number" id="maxUses" name="maxUses" placeholder="Leave empty for unlimited" min="1" value="<%= discount.maxUses || '' %>">
+        </div>
+
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date (optional)</label>
+          <input type="date" id="expiryDate" name="expiryDate" value="<%= discount.expiryDate ? new Date(discount.expiryDate).toISOString().split('T')[0] : '' %>">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Usage Statistics</h2>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <label>Current Uses</label>
+          <p class="stat-value"><%= discount.currentUses || 0 %></p>
+        </div>
+        <% if (discount.maxUses) { %>
+          <div class="stat-box">
+            <label>Max Uses</label>
+            <p class="stat-value"><%= discount.maxUses %></p>
+          </div>
+          <div class="stat-box">
+            <label>Remaining</label>
+            <p class="stat-value"><%= discount.maxUses - (discount.currentUses || 0) %></p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Status</h2>
+
+      <div class="form-group checkbox">
+        <input type="checkbox" id="active" name="active" value="on" <%= discount.active ? 'checked' : '' %>>
+        <label for="active">Active</label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Update Discount</button>
+      <a href="/admin/discounts" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<style>
+.admin-content {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.content-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+}
+
+.discount-form {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-section h2 {
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+  font-size: 18px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="date"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.stat-box {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 4px;
+  border-left: 4px solid #17a2b8;
+}
+
+.stat-box label {
+  display: block;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  color: #666;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #17a2b8;
+  margin: 0;
+}
+
+.form-group.checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.form-group.checkbox input[type="checkbox"] {
+  width: auto;
+  margin-right: 10px;
+}
+
+.form-group.checkbox label {
+  display: inline;
+  margin: 0;
+  font-weight: normal;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+@media (prefers-color-scheme: dark) {
+  .admin-content {
+    background: #1e1e1e;
+  }
+
+  .discount-form {
+    background: #2c3e50;
+    color: #ecf0f1;
+  }
+
+  .form-section h2 {
+    color: #ecf0f1;
+    border-bottom-color: #444;
+  }
+
+  .form-group label {
+    color: #ecf0f1;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: #445a6f;
+    color: #ecf0f1;
+    border-color: #555;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: #007bff;
+    background: #445a6f;
+  }
+
+  .stat-box {
+    background: #445a6f;
+    border-left-color: #17a2b8;
+  }
+
+  .stat-box label {
+    color: #aaa;
+  }
+}
+</style>

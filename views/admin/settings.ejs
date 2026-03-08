@@ -1,0 +1,196 @@
+<div style="padding: 2rem; max-width: 1000px; margin: 0 auto;">
+  <h1 style="color: #2c3e50; margin-bottom: 0.5rem;">System Settings</h1>
+  <p style="color: #7f8c8d; margin-bottom: 2rem;">Manage core system configuration and preferences</p>
+
+  <% if (success) { %>
+    <div style="background: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+      ✓ <%= success %>
+    </div>
+  <% } %>
+
+  <% if (error) { %>
+    <div style="background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+      ✗ <%= error %>
+    </div>
+  <% } %>
+
+  <form method="POST" action="/admin/settings" style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <!-- Site Information Section -->
+    <fieldset style="border: none; padding: 0; margin-bottom: 2rem;">
+      <legend style="font-size: 1.1rem; font-weight: 600; color: #2c3e50; padding-bottom: 1rem; border-bottom: 2px solid #e9ecef; margin-bottom: 1.5rem;">Site Information</legend>
+      
+      <div style="margin-bottom: 1.5rem;">
+        <label for="siteTitle" style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem;">Site Title</label>
+        <input 
+          type="text" 
+          id="siteTitle" 
+          name="siteTitle" 
+          value="<%= siteTitle || 'My App' %>" 
+          required
+          style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box;"
+        >
+        <small style="color: #7f8c8d; display: block; margin-top: 0.25rem;">The name of your website displayed across the platform</small>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <label for="siteEmail" style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem;">Contact Email</label>
+        <input 
+          type="email" 
+          id="siteEmail" 
+          name="siteEmail" 
+          value="<%= siteEmail || 'admin@example.com' %>" 
+          required
+          style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box;"
+        >
+        <small style="color: #7f8c8d; display: block; margin-top: 0.25rem;">Primary email for customer contact and notifications</small>
+      </div>
+    </fieldset>
+
+    <!-- Site Preferences Section -->
+    <fieldset style="border: none; padding: 0; margin-bottom: 2rem;">
+      <legend style="font-size: 1.1rem; font-weight: 600; color: #2c3e50; padding-bottom: 1rem; border-bottom: 2px solid #e9ecef; margin-bottom: 1.5rem;">Site Preferences</legend>
+      
+      <div style="margin-bottom: 1.5rem;">
+        <label for="itemsPerPage" style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem;">Items Per Page</label>
+        <input 
+          type="number" 
+          id="itemsPerPage" 
+          name="itemsPerPage" 
+          min="5" 
+          max="100" 
+          value="<%= itemsPerPage || 10 %>"
+          style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box;"
+        >
+        <small style="color: #7f8c8d; display: block; margin-top: 0.25rem;">Number of items to display per page in lists</small>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <label for="maintenanceMode" style="display: block; font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem;">Maintenance Mode</label>
+        <select 
+          id="maintenanceMode" 
+          name="maintenanceMode"
+          style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box;"
+        >
+          <option value="false" <%= maintenanceMode === false || !maintenanceMode ? 'selected' : '' %>>Off - Site is live</option>
+          <option value="true" <%= maintenanceMode === true || maintenanceMode === 'true' ? 'selected' : '' %>>On - Site is in maintenance</option>
+        </select>
+        <small style="color: #7f8c8d; display: block; margin-top: 0.25rem;">Enable maintenance mode to temporarily close the site</small>
+      </div>
+    </fieldset>
+
+    <!-- Email & Analytics Section -->
+    <fieldset style="border: none; padding: 0; margin-bottom: 2rem;">
+      <legend style="font-size: 1.1rem; font-weight: 600; color: #2c3e50; padding-bottom: 1rem; border-bottom: 2px solid #e9ecef; margin-bottom: 1.5rem;">Email & Analytics</legend>
+      
+      <div style="margin-bottom: 1.5rem; display: flex; align-items: center;">
+        <input 
+          type="checkbox" 
+          id="emailNotifications" 
+          name="emailNotifications" 
+          value="on"
+          <%= emailNotifications ? 'checked' : '' %>
+          style="width: 20px; height: 20px; cursor: pointer; margin-right: 0.75rem;"
+        >
+        <label for="emailNotifications" style="font-weight: 600; color: #2c3e50; cursor: pointer; margin: 0;">Enable Email Notifications</label>
+      </div>
+      <small style="color: #7f8c8d; display: block; margin-top: 0.25rem; margin-left: 2rem;">Send email notifications for important system events</small>
+
+      <div style="margin-bottom: 1.5rem; display: flex; align-items: center; margin-top: 1rem;">
+        <input 
+          type="checkbox" 
+          id="analyticsEnabled" 
+          name="analyticsEnabled" 
+          value="on"
+          <%= analyticsEnabled ? 'checked' : '' %>
+          style="width: 20px; height: 20px; cursor: pointer; margin-right: 0.75rem;"
+        >
+        <label for="analyticsEnabled" style="font-weight: 600; color: #2c3e50; cursor: pointer; margin: 0;">Enable Analytics</label>
+      </div>
+      <small style="color: #7f8c8d; display: block; margin-top: 0.25rem; margin-left: 2rem;">Track user behavior and site statistics</small>
+    </fieldset>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e9ecef;">
+      <button 
+        type="submit" 
+        style="flex: 1; padding: 0.85rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: all 0.3s;"
+      >
+        💾 Save Settings
+      </button>
+      <a 
+        href="/admin/dashboard" 
+        style="flex: 1; padding: 0.85rem 1.5rem; background: #95a5a6; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; font-size: 1rem; transition: all 0.3s; display: flex; align-items: center; justify-content: center;"
+      >
+        ← Back to Dashboard
+      </a>
+    </div>
+  </form>
+
+  <style>
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select {
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      div {
+        color: #ecf0f1;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="number"],
+      select {
+        background: #2c3e50;
+        color: #ecf0f1;
+        border-color: #34495e;
+      }
+
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="number"]:focus,
+      select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+      }
+
+      form {
+        background: #34495e;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      }
+
+      fieldset legend {
+        color: #ecf0f1;
+        border-bottom-color: #2c3e50;
+      }
+
+      small {
+        color: #bdc3c7;
+      }
+
+      a {
+        color: white;
+      }
+    }
+  </style>
+</div>

@@ -1,0 +1,43 @@
+<header>
+  <nav>
+    <button class="menu-toggle">☰</button>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/products">Products</a>
+      <a href="/faq">FAQ</a>
+      <a href="/services">Services</a>
+      <a href="/gallery">Gallery</a>
+    </div>
+    <div class="header-right">
+      <a href="#" class="cart-link" id="cart-link">
+        🛒 Cart <span id="cart-count" class="cart-count">0</span>
+      </a>
+      <a href="/auth/login" class="admin-link">Admin Login</a>
+    </div>
+  </nav>
+</header>
+
+<style>
+.cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+.cart-count {
+  background: #e74c3c;
+  color: white;
+  padding: 0.1rem 0.4rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+</style>

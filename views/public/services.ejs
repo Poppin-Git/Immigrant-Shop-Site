@@ -1,0 +1,10 @@
+<h1><%= title %></h1>
+
+<div class="services">
+  <% services.forEach(service => { %>
+    <div class="service-card">
+      <h3><%= service.name %></h3>
+      <p><%= service.description %></p>
+    </div>
+  <% }); %>
+</div>
