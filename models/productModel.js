@@ -1,6 +1,15 @@
 const db = require('../firebase');
 const admin = require('firebase-admin');
 
+// Allowed product categories
+const ALLOWED_CATEGORIES = ['all', 'new', 'popular'];
+
+// Validate product category
+const validateCategory = (category) => {
+  const cat = String(category || 'all').toLowerCase().trim();
+  return ALLOWED_CATEGORIES.includes(cat) ? cat : 'all';
+};
+
 // Get all active products
 const getActiveProducts = async () => {
   try {
@@ -54,7 +63,7 @@ const createProduct = async (data) => {
   try {
     const docRef = await db.collection('products').add({
       ...data,
-      category: data.category || 'all',
+      category: validateCategory(data.category),
       isActive: data.isActive !== undefined ? data.isActive : true,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
@@ -70,7 +79,7 @@ const updateProduct = async (id, data) => {
   try {
     await db.collection('products').doc(id).update({
       ...data,
-      category: data.category || 'all',
+      category: validateCategory(data.category),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     });
     return true;
@@ -95,5 +104,7 @@ module.exports = {
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  validateCategory,
+  ALLOWED_CATEGORIES
 };

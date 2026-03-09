@@ -55,7 +55,7 @@
         <button class="filter-btn" onclick="filterByCategory('none')">None</button>
         <button class="filter-btn" onclick="filterByCategory('new')">New</button>
         <button class="filter-btn" onclick="filterByCategory('popular')">Popular</button>
-        <button class="filter-btn" onclick="filterByCategory('sale')">On Sale</button>
+        <button class="filter-btn" onclick="filterByCategory('discount')">On Sale</button>
       </div>
 
       <div class="sort-controls">
@@ -149,9 +149,9 @@
         } else if (category === 'none') {
           // Show only products with 'all' category
           show = rowCategory === 'all';
-        } else if (category === 'sale') {
-          // Show products manually marked as on sale OR products with any discount
-          show = rowCategory === 'sale' || hasDiscount;
+        } else if (category === 'discount') {
+          // Show only products with any discount (smart detection)
+          show = hasDiscount;
         } else {
           // Show products matching the category (new, popular)
           show = rowCategory === category;

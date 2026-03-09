@@ -1,4 +1,10 @@
-<div class="product-card" data-category="<%= product.category || 'all' %>" data-product-id="<%= product.id %>">
+<div class="product-card" 
+     data-category="<%= product.category || 'all' %>" 
+     data-product-id="<%= product.id %>"
+     data-product-name="<%= product.name %>"
+     data-product-price="<%= product.finalPrice || (typeof product.price === 'string' ? parseFloat(product.price) : product.price) %>"
+     data-has-discount="<%= (product.discount && product.discount > 0) || (product.appliedDiscounts && product.appliedDiscounts.length > 0) ? 'true' : 'false' %>"
+     data-discount-value="<%= product.discount || 0 %>">
   <div class="product-card-container">
     <% if (product.imageUrl) { %>
       <div class="product-image">
