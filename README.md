@@ -1,6 +1,6 @@
 # Firebase Express E-Commerce Application
 
-A modern, feature-rich e-commerce platform built with Node.js, Express, Firebase Firestore, and EJS. This application includes a complete admin dashboard, dynamic content management system, product catalog with discounts, shopping cart, and comprehensive business features.
+A modern e-commerce platform built with Node.js, Express, Firebase Firestore, and EJS. This application includes a complete admin dashboard, dynamic content management system, product catalog with discounts, shopping cart, and comprehensive business features.
 
 **Status**: ✅ FULLY IMPLEMENTED & TESTED  
 **Current Version**: 1.0.0  

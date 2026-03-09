@@ -322,7 +322,7 @@ router.get('/products', async (req, res) => {
           <button class="filter-btn active" onclick="filterByCategory('all')">All</button>
           <button class="filter-btn" onclick="filterByCategory('new')">New</button>
           <button class="filter-btn" onclick="filterByCategory('popular')">Popular</button>
-          <button class="filter-btn" onclick="filterByCategory('sale')">On Sale</button>
+          <button class="filter-btn" onclick="filterByCategory('discount')">On Sale</button>
         </div>
 
         <div class="sort-controls" style="margin: 1.5rem 0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
@@ -484,31 +484,76 @@ router.get('/products', async (req, res) => {
           function filterProducts() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
             const products = document.querySelectorAll('.product-card');
+            let visibleCount = 0;
+            
             products.forEach(product => {
               const text = product.textContent.toLowerCase();
-              product.style.display = text.includes(searchInput) ? '' : 'none';
+              const isVisible = text.includes(searchInput);
+              product.style.display = isVisible ? '' : 'none';
+              if (isVisible) visibleCount++;
             });
+            
+            // Show/remove "no products found" message for search
+            const container = document.getElementById('productsContainer');
+            let noMatchMsg = container.querySelector('.no-products-found');
+            
+            if (visibleCount === 0 && searchInput.trim() !== '') {
+              if (!noMatchMsg) {
+                noMatchMsg = document.createElement('div');
+                noMatchMsg.className = 'no-products-found';
+                noMatchMsg.style.cssText = 'text-align: center; padding: 2rem; color: #999; font-size: 1.1rem; grid-column: 1/-1;';
+                noMatchMsg.textContent = 'No products found matching your search.';
+                container.appendChild(noMatchMsg);
+              }
+            } else if (noMatchMsg) {
+              noMatchMsg.remove();
+            }
           }
 
           function filterByCategory(category) {
             const products = document.querySelectorAll('.product-card');
+            let visibleCount = 0;
+            
             products.forEach(product => {
               let show = false;
               
               if (category === 'all') {
                 show = true;
-              } else if (category === 'sale') {
-                // Show products with discounts OR manually marked as on sale
-                show = product.dataset.hasDiscount === 'true' || product.dataset.category === 'sale';
+              } else if (category === 'discount') {
+                // Show only products with any discount
+                show = product.dataset.hasDiscount === 'true';
               } else {
                 // Show products matching the category
                 show = product.dataset.category === category;
               }
               
               product.style.display = show ? '' : 'none';
+              if (show) visibleCount++;
             });
+            
+            // Update active button
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            
+            // Show/remove "no products found" message
+            const container = document.getElementById('productsContainer');
+            let noMatchMsg = container.querySelector('.no-products-found');
+            
+            if (visibleCount === 0) {
+              // Show message if not already present
+              if (!noMatchMsg) {
+                noMatchMsg = document.createElement('div');
+                noMatchMsg.className = 'no-products-found';
+                noMatchMsg.style.cssText = 'text-align: center; padding: 2rem; color: #999; font-size: 1.1rem; grid-column: 1/-1;';
+                noMatchMsg.textContent = 'No products found in this category.';
+                container.appendChild(noMatchMsg);
+              }
+            } else {
+              // Remove message if present
+              if (noMatchMsg) {
+                noMatchMsg.remove();
+              }
+            }
           }
 
           function sortProducts(sortOption) {
@@ -550,9 +595,32 @@ router.get('/products', async (req, res) => {
             });
           }
 
+          // Store original product order
+          const originalProducts = Array.from(document.querySelectorAll('.product-card'));
+          
           function resetSort() {
             document.getElementById('sortDropdown').value = '';
-            location.reload();
+            const container = document.getElementById('productsContainer');
+            
+            // Restore original order without full page reload
+            const products = Array.from(document.querySelectorAll('.product-card'));
+            
+            // Remove and re-append in original order
+            products.forEach(p => p.remove());
+            originalProducts.forEach(p => {
+              // Create a clone to preserve the original
+              const clone = p.cloneNode(true);
+              container.appendChild(clone);
+            });
+            
+            // Re-attach event listeners after cloning
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+              btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Product added to cart!');
+              });
+            });
+          }
           }
 
           // Add event listener to sort dropdown

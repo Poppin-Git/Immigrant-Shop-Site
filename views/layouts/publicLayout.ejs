@@ -56,8 +56,8 @@
     .search-container { margin-bottom: 1rem; }
     .search-container input { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
     .filter-buttons { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-    .filter-btn { padding: 0.5rem 1rem; border: 1px solid #667eea; background: white; color: #667eea; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
-    .filter-btn.active { background: #667eea; color: white; }
+    .filter-btn { padding: 0.5rem 1rem; border: 1px solid #007bff; background: white; color: #007bff; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
+    .filter-btn.active { background: #007bff; color: white; }
     .filter-btn:hover { background: #5a67d8; color: white; }
     @media (max-width: 768px) {
       nav { flex-direction: column; }
@@ -120,13 +120,25 @@
       if (event && event.target) event.target.classList.add('active');
 
       const products = document.querySelectorAll('.product-card');
+      let visibleCount = 0;
+      
       products.forEach(product => {
+        let show = false;
         const prodCat = product.getAttribute('data-category') || 'all';
-        if (category === 'all' || prodCat === category) {
-          product.style.display = 'block';
+        const hasDiscount = product.getAttribute('data-has-discount') === 'true';
+        
+        if (category === 'all') {
+          show = true;
+        } else if (category === 'discount') {
+          // Show only products with any discount
+          show = hasDiscount;
         } else {
-          product.style.display = 'none';
+          // Show products matching category
+          show = prodCat === category;
         }
+        
+        product.style.display = show ? 'block' : 'none';
+        if (show) visibleCount++;
       });
     }
 
