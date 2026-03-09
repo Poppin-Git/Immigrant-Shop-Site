@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title || 'My App' %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/ui.css">
   <style>
     * { box-sizing: border-box; }
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; line-height: 1.6; transition: background-color 0.3s, color 0.3s; }
@@ -18,7 +20,7 @@
     .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
     .nav-links { display: flex; }
     .nav-links a { display: block; }
-    main { padding: 2rem; min-height: 60vh; }
+    main { padding: 2rem 1.25rem; min-height: 60vh; max-width: 1200px; margin: 0 auto; }
     footer { background: #333; color: white; text-align: center; padding: 1rem; margin-top: 2rem; }
     footer nav { margin-top: 1rem; }
     footer a { color: white; text-decoration: none; margin: 0 1rem; }
@@ -34,13 +36,6 @@
     input:focus, textarea:focus { border-color: #667eea; outline: none; }
     button { background: #333; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
     button:hover { background: #555; }
-    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
-    .product-card { border: 1px solid #ddd; padding: 1rem; border-radius: 4px; text-align: center; transition: box-shadow 0.3s; }
-    .product-card:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-    .product-card h3 { margin-top: 0; }
-    .product-card p { color: #666; }
-    .product-card .button { background: #667eea; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; display: inline-block; margin-top: 0.5rem; transition: background 0.3s; }
-    .product-card .button:hover { background: #5a67d8; }
     .dark-mode-toggle { position: fixed; bottom: 1rem; left: 1rem; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; z-index: 1000; }
     .whatsapp-button { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #25d366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 999; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: background 0.3s, transform 0.3s; }
     .whatsapp-button:hover { background: #1ea952; transform: scale(1.1); }
@@ -53,12 +48,6 @@
     .faq-item, .service-card, .testimonial-card, .member-card { border: 1px solid #ddd; padding: 1rem; border-radius: 4px; }
     .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
     .gallery img { width: 100%; height: auto; border-radius: 4px; }
-    .search-container { margin-bottom: 1rem; }
-    .search-container input { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
-    .filter-buttons { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-    .filter-btn { padding: 0.5rem 1rem; border: 1px solid #007bff; background: white; color: #007bff; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
-    .filter-btn.active { background: #007bff; color: white; }
-    .filter-btn:hover { background: #5a67d8; color: white; }
     @media (max-width: 768px) {
       nav { flex-direction: column; }
       .nav-links { display: none; flex-direction: column; width: 100%; }
@@ -72,7 +61,7 @@
   </style>
 </head>
 <body>
-  <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙</button>
   <a href="https://wa.me/1234567890" class="whatsapp-button" target="_blank" title="Chat with us on WhatsApp">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -90,7 +79,9 @@
     function toggleDarkMode() {
       document.body.classList.toggle('dark');
       const toggle = document.querySelector('.dark-mode-toggle');
-      toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      const isDark = document.body.classList.contains('dark');
+      toggle.textContent = isDark ? '☀️' : '🌙';
+      toggle.setAttribute('aria-pressed', String(isDark));
     }
     // Mobile menu
     const menuToggle = document.querySelector('.menu-toggle');
@@ -100,24 +91,29 @@
         navLinks.classList.toggle('show');
       });
     }
-    // Product filtering
-    function filterProducts() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    // Product filtering with debounce and fade-in
+    function filterProducts(searchTerm) {
       const products = document.querySelectorAll('.product-card');
       products.forEach(product => {
         const name = product.querySelector('h3').textContent.toLowerCase();
         const desc = product.querySelector('p').textContent.toLowerCase();
-        if (name.includes(searchTerm) || desc.includes(searchTerm)) {
-          product.style.display = 'block';
-        } else {
-          product.style.display = 'none';
+        const show = name.includes(searchTerm) || desc.includes(searchTerm);
+        product.style.display = show ? 'block' : 'none';
+        if (show) {
+          product.classList.remove('fade-in');
+          void product.offsetWidth; // force reflow
+          product.classList.add('fade-in');
         }
       });
     }
-    function filterByCategory(category) {
+    function filterByCategory(category, evt) {
       const buttons = document.querySelectorAll('.filter-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
+      buttons.forEach(btn => btn.setAttribute('aria-pressed', 'false'));
+      if (evt && evt.target) {
+        evt.target.classList.add('active');
+        evt.target.setAttribute('aria-pressed', 'true');
+      }
 
       const products = document.querySelectorAll('.product-card');
       let visibleCount = 0;
@@ -130,14 +126,17 @@
         if (category === 'all') {
           show = true;
         } else if (category === 'discount') {
-          // Show only products with any discount
           show = hasDiscount;
         } else {
-          // Show products matching category
           show = prodCat === category;
         }
         
         product.style.display = show ? 'block' : 'none';
+        if (show) {
+          product.classList.remove('fade-in');
+          void product.offsetWidth;
+          product.classList.add('fade-in');
+        }
         if (show) visibleCount++;
       });
     }
@@ -182,16 +181,27 @@
       }
     });
 
-    // Auto-detect Learn More buttons and add click handlers
     document.addEventListener('DOMContentLoaded', function() {
+      // Attach debounced search
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        let debounceTimer;
+        searchInput.addEventListener('input', function (e) {
+          const value = e.target.value.toLowerCase();
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => filterProducts(value), 200);
+        });
+      }
+
+      // Auto-detect Learn More buttons and add click handlers
       const learnMoreLinks = document.querySelectorAll('.learn-more');
       learnMoreLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
           const card = this.closest('.product-card');
           if (card) {
-            const name = card.querySelector('h3') ? card.querySelector('h3').textContent : 'Product';
-            const desc = card.querySelector('p') ? card.querySelector('p').textContent.trim() : 'No description';
+            const name = card.querySelector('.product-card-title') ? card.querySelector('.product-card-title').textContent : 'Product';
+            const desc = card.querySelector('.product-card-description') ? card.querySelector('.product-card-description').textContent.trim() : 'No description';
             const img = card.querySelector('img') ? card.querySelector('img').src : '';
             const category = card.dataset.category || 'General';
             const prodId = card.dataset.productId || '';

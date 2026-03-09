@@ -1,5 +1,5 @@
 <header>
-  <nav>
+  <nav aria-label="Main navigation">
     <button class="menu-toggle">☰</button>
     <div class="nav-links">
       <a href="/">Home</a>
@@ -11,8 +11,11 @@
       <a href="/gallery">Gallery</a>
     </div>
     <div class="header-right">
-      <a href="#" class="cart-link" id="cart-link">
-        🛒 Cart <span id="cart-count" class="cart-count">0</span>
+      <a href="#"
+         class="cart-link"
+         id="cart-link"
+         aria-label="Open shopping cart">
+        🛒 Cart <span id="cart-count" class="cart-count" aria-live="polite">0</span>
       </a>
       <a href="/auth/login" class="admin-link">Admin Login</a>
     </div>

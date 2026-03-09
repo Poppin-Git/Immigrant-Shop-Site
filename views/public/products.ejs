@@ -1,21 +1,52 @@
-<h1><%= title %></h1>
-<p><%= intro %></p>
+<section class="page-section" aria-labelledby="products-heading">
+  <header style="margin-bottom: 1rem;">
+    <h1 id="products-heading"><%= title %></h1>
+    <p class="text-muted"><%= intro %></p>
+  </header>
 
-<!-- Search Bar -->
-<div class="search-container">
-  <input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
-</div>
+  <!-- Search Bar -->
+  <label for="searchInput" class="sr-only">Search products</label>
+  <div class="search-bar" role="search">
+    <span class="search-bar-icon">🔍</span>
+    <input type="text"
+           id="searchInput"
+           class="search-input"
+           placeholder="Search products by name or description"
+           autocomplete="off">
+  </div>
 
-<!-- Filter Buttons -->
-<div class="filter-buttons">
-  <button class="filter-btn active" onclick="filterByCategory('all')">All</button>
-  <button class="filter-btn" onclick="filterByCategory('new')">New</button>
-  <button class="filter-btn" onclick="filterByCategory('popular')">Popular</button>
-  <button class="filter-btn" onclick="filterByCategory('sale')">On Sale</button>
-</div>
+  <!-- Filter Buttons -->
+  <div class="filter-toolbar filter-buttons" role="tablist" aria-label="Product filters">
+    <button class="filter-chip filter-btn active"
+            type="button"
+            onclick="filterByCategory('all', event)"
+            aria-pressed="true">
+      <span class="filter-chip-icon">•</span>
+      All
+    </button>
+    <button class="filter-chip filter-btn"
+            type="button"
+            onclick="filterByCategory('new', event)"
+            aria-pressed="false">
+      New
+    </button>
+    <button class="filter-chip filter-btn"
+            type="button"
+            onclick="filterByCategory('popular', event)"
+            aria-pressed="false">
+      Popular
+    </button>
+    <button class="filter-chip filter-btn"
+            type="button"
+            onclick="filterByCategory('discount', event)"
+            aria-pressed="false">
+      On Sale
+    </button>
+  </div>
 
-<div class="products" id="productsContainer">
+  <div class="product-grid products" id="productsContainer">
   <% products.forEach(product => { %>
     <%- include('../partials/_productCard', {product: product}) %>
   <% }); %>
-</div>
+  </div>
+</section>

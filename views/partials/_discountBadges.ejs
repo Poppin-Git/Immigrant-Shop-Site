@@ -1,0 +1,37 @@
+<%
+  const rawDiscount = product.discount || 0;
+  const numericDiscount = typeof rawDiscount === 'string' ? parseInt(rawDiscount, 10) : rawDiscount;
+  const hasProductDiscount = numericDiscount && numericDiscount > 0;
+
+  const appliedCodeList =
+    (product.appliedDiscounts && product.appliedDiscounts.length ? product.appliedDiscounts :
+    (product.discountIds && product.discountIds.length ? product.discountIds : []));
+
+  const hasCodeDiscount = appliedCodeList && appliedCodeList.length > 0;
+  const hasAnyDiscount = hasProductDiscount || hasCodeDiscount;
+%>
+
+<% if (hasAnyDiscount) { %>
+  <div class="discount-badge-group" aria-label="Discount information" role="status">
+    <% if (hasProductDiscount) { %>
+      <span
+        class="badge-pill badge-sale"
+        title="Product-level discount applied at the item level">
+        <%= numericDiscount %>% OFF
+      </span>
+    <% } %>
+
+    <% if (hasCodeDiscount) { %>
+      <span
+        class="badge-pill badge-code"
+        title="+<%= appliedCodeList.length %> discount code<%= appliedCodeList.length !== 1 ? 's' : '' %> applied at checkout">
+        +<%= appliedCodeList.length %> code<%= appliedCodeList.length !== 1 ? 's' : '' %>
+      </span>
+    <% } %>
+  </div>
+<% } else if (!compact) { %>
+  <span class="badge-pill badge-neutral">
+    No discounts
+  </span>
+<% } %>
+
