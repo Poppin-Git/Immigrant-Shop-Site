@@ -12,28 +12,28 @@
 <!-- Contact Info Blocks -->
 <div class="contact-info-blocks">
   <% if (email) { %>
-    <div class="info-block">
+    <div class="info-block public-card">
       <h3>📧 Email</h3>
-      <p><a href="mailto:<%= email %>"><%= email %></a></p>
+      <p><a href="mailto:<%= email %>" class="public-link"><%= email %></a></p>
     </div>
   <% } %>
   
   <% if (phone) { %>
-    <div class="info-block">
+    <div class="info-block public-card">
       <h3>📞 Phone</h3>
-      <p><a href="tel:<%= phoneRaw %>"><%= phone %></a></p>
+      <p><a href="tel:<%= phoneRaw %>" class="public-link"><%= phone %></a></p>
     </div>
   <% } %>
   
   <% if (whatsappNumber) { %>
-    <div class="info-block">
+    <div class="info-block public-card">
       <h3>💬 WhatsApp</h3>
-      <p><a href="https://wa.me/<%= whatsappNumber %>?text=<%= encodeURIComponent(whatsappMessage || 'Hi, I would like to know more') %>" target="_blank">Message us on WhatsApp</a></p>
+      <p><a href="https://wa.me/<%= whatsappNumber %>?text=<%= encodeURIComponent(whatsappMessage || 'Hi, I would like to know more') %>" target="_blank" class="public-link">Message us on WhatsApp</a></p>
     </div>
   <% } %>
   
   <% if (address && (address.street || address.city)) { %>
-    <div class="info-block">
+    <div class="info-block public-card">
       <h3>📍 Address</h3>
       <p>
         <% if (address.street) { %><%= address.street %><br><% } %>
@@ -46,7 +46,7 @@
   <% } %>
   
   <% if (businessHours) { %>
-    <div class="info-block">
+    <div class="info-block public-card">
       <h3>🕒 Business Hours</h3>
       <p>
         <% if (businessHours.weekdayDays) { %>
@@ -64,25 +64,25 @@
 
 
 <!-- Contact Form -->
-<div class="contact-form-section">
+<div class="contact-form-section public-card">
   <h2>Send us a Message</h2>
   <form action="<%= formAction %>" method="POST">
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" placeholder="Your full name" required>
     </div>
 
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
     </div>
 
     <div class="form-group">
       <label for="message">Message:</label>
-      <textarea id="message" name="message" rows="5" required></textarea>
+      <textarea id="message" name="message" rows="5" placeholder="Please describe your inquiry or message..." required></textarea>
     </div>
 
-    <button type="submit"><%= submitText %></button>
+    <button type="submit" class="public-btn"><%= submitText %></button>
   </form>
 </div>
 

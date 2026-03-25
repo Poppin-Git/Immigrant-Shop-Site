@@ -83,6 +83,66 @@ function showAlert(message, type = 'info') {
 }
 
 // ============================================================================
+// MOBILE SIDEBAR FUNCTIONALITY
+// ============================================================================
+
+/**
+ * Initialize mobile sidebar functionality
+ */
+function initMobileSidebar() {
+  const menuToggle = document.getElementById('mobile-menu-toggle');
+  const closeSidebar = document.getElementById('close-sidebar');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  const mobileSidebar = document.getElementById('mobile-sidebar');
+
+  if (!menuToggle || !closeSidebar || !sidebarOverlay || !mobileSidebar) {
+    return;
+  }
+
+  // Open sidebar
+  menuToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    mobileSidebar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  });
+
+  // Close sidebar with close button
+  closeSidebar.addEventListener('click', function(e) {
+    e.preventDefault();
+    mobileSidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = ''; // Re-enable background scrolling
+  });
+
+  // Close sidebar with overlay click
+  sidebarOverlay.addEventListener('click', function() {
+    mobileSidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = ''; // Re-enable background scrolling
+  });
+
+  // Close sidebar when clicking on menu items (for better UX on mobile)
+  const menuItems = mobileSidebar.querySelectorAll('.sidebar-menu a');
+  menuItems.forEach(function(item) {
+    item.addEventListener('click', function() {
+      mobileSidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+      document.body.style.overflow = ''; // Re-enable background scrolling
+    });
+  });
+
+  // Close sidebar when window is resized to desktop
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+      mobileSidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+      document.body.style.overflow = ''; // Re-enable background scrolling
+    }
+  });
+}
+
+// ============================================================================
 // EVENT LISTENERS
 // ============================================================================
 
@@ -90,7 +150,9 @@ function showAlert(message, type = 'info') {
  * Initialize event listeners when DOM is ready
  */
 document.addEventListener('DOMContentLoaded', function() {
-  // Add any global event listeners here if needed
+  initMobileSidebar();
+  
+  // Add any other global event listeners here if needed
 });
 
 // ============================================================================

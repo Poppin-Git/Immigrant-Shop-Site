@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> - Firebase Express App</title>
     <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Keep your code, just add one fix (quick & easy) -->
+    <!-- Add this single line to the very top of your <head>, before any CSS: -->
+    <script>
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
 </head>
 <body>
     <%- include('../partials/navbar') %>
@@ -16,5 +24,28 @@
     <%- include('../partials/footer') %>
 
     <script src="/js/main.js"></script>
+    <script src="/js/dark-mode.js"></script>
+    
+    <!-- Initialize dark mode on page load -->
+    <script>
+        // Ensure dark mode is applied immediately on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            const root = document.documentElement;
+            
+            if (savedTheme === 'dark') {
+                root.setAttribute('data-theme', 'dark');
+            } else {
+                // Check system preference as fallback
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    root.setAttribute('data-theme', 'dark');
+                } else {
+                    root.removeAttribute('data-theme');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

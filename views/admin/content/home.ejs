@@ -1,21 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
-    .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    h1 { color: #333; margin-bottom: 20px; }
-    .nav { margin-bottom: 20px; }
-    .nav a { margin-right: 15px; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
-    .nav a:hover { background: #0056b3; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; }
-    input, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-    button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #218838; }
+    /* Admin content edit styles using CSS variables */
+    .container { 
+      max-width: 800px; 
+      margin: 0 auto; 
+      background: var(--bg-card); 
+      padding: 20px; 
+      border-radius: 8px; 
+      box-shadow: var(--shadow-card); 
+      border: 1px solid var(--border-color);
+    }
+    h1 { 
+      color: var(--admin-text); 
+      margin-bottom: 20px; 
+      font-size: 2rem;
+      border-bottom: 2px solid var(--brand-primary);
+      padding-bottom: 10px;
+    }
+    .nav { 
+      margin-bottom: 20px; 
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .nav a { 
+      margin-right: 15px; 
+      padding: 10px 15px; 
+      background: var(--brand-primary); 
+      color: white; 
+      text-decoration: none; 
+      border-radius: 4px; 
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    .nav a:hover { 
+      background: var(--brand-primary-hover); 
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .form-group { 
+      margin-bottom: 15px; 
+    }
+    label { 
+      display: block; 
+      margin-bottom: 5px; 
+      font-weight: bold; 
+      color: var(--admin-text);
+    }
+    input, textarea { 
+      width: 100%; 
+      padding: 8px; 
+      border: 1px solid var(--border-color); 
+      border-radius: 4px; 
+      background: var(--bg-secondary);
+      color: var(--admin-text);
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    input:focus, textarea:focus { 
+      outline: none; 
+      border-color: var(--brand-primary); 
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); 
+      background: var(--bg-primary);
+    }
+    button { 
+      background: var(--brand-success); 
+      color: white; 
+      padding: 10px 20px; 
+      border: none; 
+      border-radius: 4px; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    button:hover { 
+      background: var(--brand-success); 
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      opacity: 0.9;
+    }
+    
+    /* Dark mode specific overrides */
+    [data-theme="dark"] .container {
+      background: var(--admin-card);
+      border-color: var(--border-color);
+    }
+    
+    [data-theme="dark"] input, [data-theme="dark"] textarea {
+      background: var(--admin-card);
+      border-color: var(--border-color);
+      color: var(--admin-text);
+    }
+    
+    [data-theme="dark"] input:focus, [data-theme="dark"] textarea:focus {
+      background: var(--admin-bg);
+      border-color: var(--brand-primary);
+    }
   </style>
 </head>
 <body>

@@ -1,6 +1,9 @@
 <nav class="navbar">
     <div class="navbar-content">
         <a href="/" class="navbar-logo">FireApp</a>
+        <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span>☰</span>
+        </button>
         <div class="navbar-menu">
             <% if (typeof user !== 'undefined' && user) { %>
                 <span class="navbar-user">Welcome, <%= user.email %></span>
@@ -13,6 +16,175 @@
                 <a href="/auth/login" class="navbar-link">Login</a>
                 <a href="/auth/register" class="navbar-link">Register</a>
             <% } %>
+            <!-- Dark Mode Toggle -->
+            <div class="dark-mode-toggle">
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+                    <span class="theme-icon" id="theme-icon">🌙</span>
+                    <span class="theme-text" id="theme-text">Dark</span>
+                </button>
+            </div>
         </div>
     </div>
 </nav>
+
+<!-- Mobile Sidebar -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="mobile-sidebar" id="mobile-sidebar">
+    <div class="sidebar-header">
+        <h3>FireApp</h3>
+        <button class="close-btn" id="close-sidebar" aria-label="Close mobile menu">
+            <span>×</span>
+        </button>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="/" class="nav-link public-link">Home</a></li>
+        <li><a href="/about" class="nav-link public-link">About</a></li>
+        <li><a href="/contact" class="nav-link public-link">Contact</a></li>
+        <li><a href="/products" class="nav-link public-link">Products</a></li>
+        <li><a href="/faq" class="nav-link public-link">FAQ</a></li>
+        <li><a href="/services" class="nav-link public-link">Services</a></li>
+        <li><a href="/gallery" class="nav-link public-link">Gallery</a></li>
+        <% if (typeof user !== 'undefined' && user) { %>
+            <% if (user.role === 'admin') { %>
+                <li><a href="/admin/dashboard" class="navbar-link">Admin Dashboard</a></li>
+            <% } %>
+            <li><a href="/user/profile" class="navbar-link">My Profile</a></li>
+            <li><a href="/auth/logout" class="navbar-link">Logout</a></li>
+        <% } else { %>
+            <li><a href="/auth/login" class="navbar-link">Login</a></li>
+            <li><a href="/auth/register" class="navbar-link">Register</a></li>
+        <% } %>
+    </ul>
+    <!-- Mobile Dark Mode Toggle -->
+    <div class="mobile-theme-toggle">
+        <label class="mobile-theme-label">
+            <span class="theme-icon">🌙</span>
+            <span>Dark Mode</span>
+            <input type="checkbox" id="mobile-theme-toggle" class="mobile-theme-input">
+            <span class="mobile-theme-slider"></span>
+        </label>
+    </div>
+</div>
+
+<style>
+/* Additional mobile-specific styles */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    .navbar-menu {
+        display: none;
+    }
+}
+
+/* Dark Mode Toggle Styles */
+.dark-mode-toggle {
+    margin-left: 1rem;
+}
+
+.theme-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.theme-toggle-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--brand-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.theme-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle-btn.active .theme-icon {
+    transform: rotate(180deg);
+}
+
+/* Mobile Theme Toggle Styles */
+.mobile-theme-toggle {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.mobile-theme-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.mobile-theme-label:hover {
+    background: var(--bg-hover);
+}
+
+.mobile-theme-input {
+    display: none;
+}
+
+.mobile-theme-slider {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: var(--border-color);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.mobile-theme-slider::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.mobile-theme-input:checked + .mobile-theme-slider {
+    background: var(--brand-primary);
+}
+
+.mobile-theme-input:checked + .mobile-theme-slider::after {
+    transform: translateX(20px);
+}
+
+/* Dark mode specific styles for toggle */
+[data-theme="dark"] .theme-toggle-btn {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover {
+    background: var(--bg-active);
+    border-color: var(--brand-primary);
+}
+
+[data-theme="dark"] .mobile-theme-label:hover {
+    background: var(--bg-hover);
+}
+</style>
+
