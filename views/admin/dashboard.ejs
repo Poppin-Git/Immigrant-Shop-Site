@@ -512,15 +512,25 @@
 @media (max-width: 768px) {
   .dashboard-container {
     padding: 1rem;
+    max-width: 100%;
   }
   
   .dashboard-header {
     flex-direction: column;
     gap: 1.5rem;
+    text-align: center;
+  }
+  
+  .welcome-section {
+    flex: 1;
+    text-align: center;
   }
   
   .dashboard-stats {
     flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
   }
   
   .dashboard-title {
@@ -533,6 +543,8 @@
   
   .card {
     padding: 1.5rem;
+    margin: 0 auto;
+    max-width: 100%;
   }
   
   .stat-number {
@@ -541,11 +553,23 @@
   
   .quick-actions {
     padding: 2rem 1rem;
+    margin: 2rem auto;
+    max-width: 100%;
   }
   
   .btn {
     width: 100%;
     justify-content: center;
+    margin: 0.5rem 0;
+  }
+  
+  /* Fix mobile spacing issues */
+  .dashboard-section {
+    margin-bottom: 2rem;
+  }
+  
+  .section-header {
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -560,6 +584,14 @@
   
   .card {
     padding: 1rem;
+  }
+  
+  .dashboard-container {
+    padding: 0.5rem;
+  }
+  
+  .quick-actions {
+    padding: 1.5rem 0.5rem;
   }
 }
 

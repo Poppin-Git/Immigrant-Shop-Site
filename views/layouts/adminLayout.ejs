@@ -72,6 +72,8 @@
       position: sticky; 
       top: 0; 
       z-index: 100; 
+      width: calc(100% - 250px);
+      left: 250px;
     }
     .header h1 { 
       margin: 0; 
@@ -317,29 +319,29 @@
     @media (max-width: 768px) {
       .sidebar { 
         width: 100%; 
-        position: static; 
-        height: auto; 
-        transform: translateY(-100%); 
-        opacity: 0; 
-        visibility: hidden; 
-        transition: all 0.3s ease; 
-      }
-      .sidebar.active { 
-        transform: translateY(0); 
-        opacity: 1; 
-        visibility: visible; 
         position: fixed; 
         top: 0; 
         left: 0; 
-        z-index: 1001; 
         height: 100vh; 
-        overflow-y: auto; 
+        transform: translateX(-100%); 
+        opacity: 0; 
+        visibility: hidden; 
+        transition: all 0.3s ease; 
+        z-index: 1001;
+      }
+      .sidebar.active { 
+        transform: translateX(0); 
+        opacity: 1; 
+        visibility: visible; 
       }
       .main-content { 
         margin-left: 0; 
+        width: 100%;
       }
       .header { 
         padding: 1rem; 
+        width: 100%;
+        left: 0;
       }
       .header h1 { 
         font-size: 1.25rem; 
