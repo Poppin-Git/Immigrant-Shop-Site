@@ -18,6 +18,8 @@
       box-shadow: var(--admin-shadow); 
       z-index: 1000; 
       border-right: 1px solid var(--admin-border);
+      top: 0;
+      margin-top: 0;
     }
     .sidebar h2 { 
       margin-top: 0; 
@@ -72,8 +74,10 @@
       position: sticky; 
       top: 0; 
       z-index: 100; 
-      width: calc(100% - 250px);
-      left: 250px;
+      width: 100%;
+      left: 0;
+      right: 0;
+      margin: 0;
     }
     .header h1 { 
       margin: 0; 
@@ -93,6 +97,11 @@
       font-size: 0.9rem; 
       font-weight: 500; 
       border: 1px solid var(--border-color);
+    }
+    
+    /* Ensure buttons have proper spacing from edge */
+    .header .user-info {
+      padding-right: 1rem;
     }
     .logout-btn { 
       background: var(--brand-danger); 
@@ -395,8 +404,8 @@
         <!-- Dark Mode Toggle -->
         <div class="dark-mode-toggle">
           <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
-            <span class="theme-icon" id="theme-icon">🌙</span>
-            <span class="theme-text" id="theme-text">Dark</span>
+            <span class="theme-icon" id="theme-icon">☀️</span>
+            <span class="theme-text" id="theme-text">Light</span>
           </button>
         </div>
         <a href="/auth/logout" class="logout-btn">Logout</a>
