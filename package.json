@@ -4,7 +4,7 @@
   "description": "A server-rendered Node.js + Express web application using Firebase Admin SDK and Firestore",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "set NODE_OPTIONS=--no-warnings && node server.js",
     "dev": "nodemon server.js"
   },
   "keywords": [
