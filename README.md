@@ -155,6 +155,29 @@ project-root/
 
 ## ✨ Core Features
 
+### 🎨 UI/UX Design System
+
+**Modern Design Principles:**
+- **Responsive Design**: Fully mobile-optimized with touch-friendly interactions
+- **Dark Mode Support**: Complete theme switching with persistent preferences
+- **Smooth Animations**: Professional hover effects, transitions, and micro-interactions
+- **Accessibility**: Proper contrast ratios, semantic HTML, and keyboard navigation
+- **Performance**: Optimized loading with efficient CSS and minimal JavaScript
+
+**Interactive Elements:**
+- **Enhanced Hover Effects**: All buttons, links, and cards have reactive animations
+- **Card Components**: Product cards, service cards, and content cards with lift effects
+- **Navigation**: Sticky header with smooth mobile menu transitions
+- **Form Interactions**: Real-time validation feedback and focus states
+- **Loading States**: Smooth transitions between page states
+
+**Mobile-First Approach:**
+- **Touch Targets**: All interactive elements meet 44px minimum size requirements
+- **Gesture Support**: Swipe-friendly galleries and responsive touch interactions
+- **Mobile Navigation**: Collapsible sidebar with smooth open/close animations
+- **Responsive Grids**: Flexible layouts that adapt to any screen size
+- **Mobile Typography**: Optimized font sizes and line heights for readability
+
 ### 🔐 Authentication System
 - User registration with email validation
 - Secure login with bcrypt password hashing
@@ -285,11 +308,12 @@ All content:
 - Contact hours management
 
 ### 🌓 Dark Mode Support
-- System-wide dark mode toggle
-- Persistent user preference
+- System-wide dark mode toggle with CSS variables
+- Persistent user preference via localStorage
 - Smooth transitions between modes
-- All pages and components support dark mode
+- All pages and components inherit CSS variables correctly
 - Proper contrast ratios for accessibility
+- Dark mode does NOT turn off when switching tabs
 
 ---
 

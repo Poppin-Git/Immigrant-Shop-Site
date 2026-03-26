@@ -1,54 +1,447 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title><%= title || 'Admin Panel' %></title>
+  <link rel="stylesheet" href="/css/style.css">
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; min-height: 100vh; }
-    .sidebar { width: 250px; background: #2c3e50; color: white; padding: 1rem; position: fixed; height: 100vh; overflow-y: auto; }
-    .sidebar h2 { margin-top: 0; }
-    .sidebar nav ul { list-style: none; padding: 0; }
-    .sidebar nav li { margin: 0.5rem 0; }
-    .sidebar nav a { color: white; text-decoration: none; display: block; padding: 0.5rem; border-radius: 4px; }
-    .sidebar nav a:hover { background: #34495e; }
-    .main-content { margin-left: 250px; flex: 1; display: flex; flex-direction: column; }
-    .header { background: #ecf0f1; padding: 1rem; border-top: 1px solid #bdc3c7; display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-    .header h1 { margin: 0; }
-    .header .logout { background: #e74c3c; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; }
-    .header .logout:hover { background: #c0392b; }
-    main { padding: 2rem; flex: 1; overflow-y: auto; }
-    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-    .card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 1rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .card h3 { margin-top: 0; color: #2c3e50; }
-    .card p { font-size: 2rem; font-weight: bold; color: #3498db; }
-    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    table th, table td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
-    table th { background: #f4f4f4; }
-    .form-group { margin-bottom: 1rem; }
-    label { display: block; margin-bottom: 0.5rem; }
-    input, textarea { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
-    button { background: #3498db; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #2980b9; }
-    .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
-    .alert.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-    .alert.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    /* Admin-specific styles that use CSS variables */
+    .sidebar { 
+      width: 250px; 
+      background: linear-gradient(180deg, var(--admin-bg) 0%, var(--admin-bg) 100%); 
+      color: var(--admin-text); 
+      padding: 1rem; 
+      position: fixed; 
+      height: 100vh; 
+      overflow-y: auto; 
+      box-shadow: var(--admin-shadow); 
+      z-index: 1000; 
+      border-right: 1px solid var(--admin-border);
+      top: 0;
+      margin-top: 0;
+    }
+    .sidebar h2 { 
+      margin-top: 0; 
+      margin-bottom: 2rem; 
+      font-size: 1.5rem; 
+      border-bottom: 2px solid var(--border-hover); 
+      padding-bottom: 1rem; 
+      color: var(--admin-text);
+    }
+    .sidebar nav a { 
+      color: var(--admin-text); 
+      text-decoration: none; 
+      display: block; 
+      padding: 1rem; 
+      border-radius: 8px; 
+      transition: all 0.3s ease; 
+      border-left: 4px solid transparent; 
+      background: var(--bg-secondary);
+      margin-bottom: 0.25rem;
+    }
+    .sidebar nav a:hover { 
+      background: var(--admin-hover); 
+      transform: translateX(5px); 
+      border-left-color: var(--brand-primary); 
+      box-shadow: var(--shadow-md);
+      color: var(--admin-text);
+    }
+    .sidebar nav a.active { 
+      background: var(--admin-hover); 
+      border-left-color: var(--brand-primary); 
+      font-weight: 600; 
+      color: var(--admin-text);
+    }
+    
+    /* Main content styles */
+    .main-content { 
+      margin-left: 250px; 
+      flex: 1; 
+      display: flex; 
+      flex-direction: column; 
+      min-height: 100vh; 
+      background: var(--bg-primary);
+    }
+    .header { 
+      background: var(--bg-card); 
+      padding: 1rem 2rem; 
+      border-bottom: 1px solid var(--border-color); 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      box-shadow: var(--shadow-sm); 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
+      width: 100%;
+      left: 0;
+      right: 0;
+      margin: 0;
+    }
+    .header h1 { 
+      margin: 0; 
+      font-size: 1.5rem; 
+      color: var(--admin-text); 
+    }
+    .header .user-info { 
+      display: flex; 
+      align-items: center; 
+      gap: 1rem; 
+    }
+    .user-badge { 
+      background: var(--bg-tertiary); 
+      color: var(--admin-text); 
+      padding: 0.5rem 1rem; 
+      border-radius: 20px; 
+      font-size: 0.9rem; 
+      font-weight: 500; 
+      border: 1px solid var(--border-color);
+    }
+    
+    /* Ensure buttons have proper spacing from edge */
+    .header .user-info {
+      padding-right: 1rem;
+    }
+    .logout-btn { 
+      background: var(--brand-danger); 
+      color: white; 
+      padding: 0.5rem 1rem; 
+      text-decoration: none; 
+      border-radius: 6px; 
+      transition: all 0.3s ease; 
+      border: none; 
+      cursor: pointer; 
+      font-weight: 500;
+    }
+    .logout-btn:hover { 
+      background: var(--brand-danger); 
+      transform: translateY(-2px); 
+      box-shadow: var(--shadow-md);
+      opacity: 0.9;
+    }
+    
+    /* Main area */
+    main { 
+      padding: 2rem; 
+      flex: 1; 
+      overflow-y: auto; 
+      background: var(--bg-primary);
+    }
+    .dashboard-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+      gap: 1.5rem; 
+      margin-bottom: 2rem; 
+    }
+    .card { 
+      background: var(--bg-card); 
+      border: 1px solid var(--border-color); 
+      border-radius: 12px; 
+      padding: 1.5rem; 
+      text-align: center; 
+      box-shadow: var(--shadow-card); 
+      transition: all 0.3s ease; 
+    }
+    .card:hover { 
+      transform: translateY(-5px); 
+      box-shadow: var(--shadow-hover); 
+      border-color: var(--brand-primary);
+    }
+    .card h3 { 
+      margin-top: 0; 
+      color: var(--admin-text); 
+      font-size: 1rem; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+      color: var(--admin-muted); 
+    }
+    .card p { 
+      font-size: 2.5rem; 
+      font-weight: bold; 
+      color: var(--brand-primary); 
+      margin-bottom: 0; 
+    }
+    .card .card-subtitle { 
+      color: var(--admin-muted); 
+      font-size: 0.9rem; 
+      margin-top: 0.5rem; 
+    }
+    
+    /* Tables */
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-top: 1rem; 
+      background: var(--bg-card); 
+      border-radius: 8px; 
+      overflow: hidden; 
+      box-shadow: var(--shadow-card); 
+      border: 1px solid var(--border-color);
+    }
+    table th, table td { 
+      border-bottom: 1px solid var(--border-color); 
+      padding: 0.75rem; 
+      text-align: left; 
+      transition: background-color 0.2s; 
+      color: var(--admin-text);
+    }
+    table th { 
+      background: var(--bg-tertiary); 
+      font-weight: 600; 
+      color: var(--admin-text); 
+      position: sticky; 
+      top: 0; 
+      z-index: 1; 
+    }
+    table tbody tr:hover { 
+      background-color: var(--bg-hover); 
+      transform: translateX(2px); 
+    }
+    table tbody tr:last-child td { 
+      border-bottom: none; 
+    }
+    
+    /* Forms */
+    .form-group { 
+      margin-bottom: 1.5rem; 
+    }
+    label { 
+      display: block; 
+      margin-bottom: 0.5rem; 
+      font-weight: 600; 
+      color: var(--admin-text); 
+      font-size: 0.9rem; 
+    }
+    input, textarea, select { 
+      width: 100%; 
+      padding: 0.75rem; 
+      border: 2px solid var(--border-color); 
+      border-radius: 8px; 
+      font-size: 1rem; 
+      font-family: inherit; 
+      transition: all 0.3s ease; 
+      background: var(--bg-secondary);
+      color: var(--admin-text);
+    }
+    input:focus, textarea:focus, select:focus { 
+      outline: none; 
+      border-color: var(--brand-primary); 
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); 
+      transform: translateY(-1px); 
+      background: var(--bg-primary);
+    }
+    textarea { 
+      min-height: 120px; 
+      resize: vertical; 
+    }
+    .form-row { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 1rem; 
+    }
+    
+    /* Buttons */
+    button, .btn { 
+      background: var(--brand-primary); 
+      color: white; 
+      padding: 0.75rem 1.5rem; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-size: 1rem; 
+      font-weight: 600; 
+      transition: all 0.3s ease; 
+      text-decoration: none; 
+      display: inline-block;
+    }
+    button:hover, .btn:hover { 
+      background: var(--brand-primary-hover); 
+      transform: translateY(-2px); 
+      box-shadow: var(--shadow-md);
+    }
+    .btn-secondary { 
+      background: var(--brand-muted); 
+    }
+    .btn-secondary:hover { 
+      background: var(--brand-muted); 
+      box-shadow: var(--shadow-md);
+      opacity: 0.9;
+    }
+    .btn-danger { 
+      background: var(--brand-danger); 
+    }
+    .btn-danger:hover { 
+      background: var(--brand-danger); 
+      box-shadow: var(--shadow-md);
+      opacity: 0.9;
+    }
+    
+    /* Alerts */
+    .alert { 
+      padding: 1rem 1.5rem; 
+      margin-bottom: 1.5rem; 
+      border-radius: 8px; 
+      border: 1px solid var(--border-color); 
+      font-weight: 500; 
+      background: var(--bg-card);
+      color: var(--admin-text);
+    }
+    .alert.success { 
+      background: var(--bg-card); 
+      color: var(--brand-success); 
+      border-color: var(--border-color); 
+    }
+    .alert.error { 
+      background: var(--bg-card); 
+      color: var(--brand-danger); 
+      border-color: var(--border-color); 
+    }
+    .alert.info { 
+      background: var(--bg-card); 
+      color: var(--brand-info); 
+      border-color: var(--border-color); 
+    }
+    .alert.warning { 
+      background: var(--bg-card); 
+      color: var(--brand-warning); 
+      border-color: var(--border-color); 
+    }
+    
+    /* Dark mode specific overrides for admin */
+    [data-theme="dark"] .sidebar {
+      background: linear-gradient(180deg, var(--admin-bg) 0%, var(--admin-bg) 100%);
+      border-right-color: var(--border-color);
+    }
+    
+    [data-theme="dark"] .sidebar nav a {
+      background: var(--admin-card);
+      border: 1px solid var(--border-color);
+    }
+    
+    [data-theme="dark"] .sidebar nav a:hover {
+      background: var(--admin-hover);
+      border-color: var(--border-hover);
+    }
+    
+    /* Mobile responsiveness */
     @media (max-width: 768px) {
-      .sidebar { width: 100%; position: static; height: auto; }
-      .main-content { margin-left: 0; }
-      .header { flex-direction: column; align-items: flex-start; }
-      .header .logout { margin-top: 1rem; }
+      .sidebar { 
+        width: 100%; 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        height: 100vh; 
+        transform: translateX(-100%); 
+        opacity: 0; 
+        visibility: hidden; 
+        transition: all 0.3s ease; 
+        z-index: 1001;
+      }
+      .sidebar.active { 
+        transform: translateX(0); 
+        opacity: 1; 
+        visibility: visible; 
+      }
+      .main-content { 
+        margin-left: 0; 
+        width: 100%;
+      }
+      .header { 
+        padding: 1rem; 
+        width: 100%;
+        left: 0;
+      }
+      .header h1 { 
+        font-size: 1.25rem; 
+      }
+      .dashboard-grid { 
+        grid-template-columns: 1fr; 
+        gap: 1rem; 
+      }
+      .card { 
+        padding: 1rem; 
+      }
+      .card p { 
+        font-size: 2rem; 
+      }
+      main { 
+        padding: 1rem; 
+      }
+      .form-row { 
+        grid-template-columns: 1fr; 
+      }
+      table { 
+        font-size: 0.85rem; 
+      }
+      table th, table td { 
+        padding: 0.5rem; 
+      }
+      .logout-btn { 
+        padding: 0.5rem 0.75rem; 
+        font-size: 0.9rem; 
+      }
+    }
+    
+    /* Tablet responsiveness */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .dashboard-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+      }
+      .form-row { 
+        grid-template-columns: 1fr; 
+      }
     }
   </style>
 </head>
 <body>
   <%- include('../partials/_adminSidebar') %>
   <div class="main-content">
+    <div class="header">
+      <h1><%= title || 'Admin Panel' %></h1>
+      <div class="user-info">
+        <span class="user-badge">Admin User</span>
+        <!-- Dark Mode Toggle -->
+        <div class="dark-mode-toggle">
+          <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <span class="theme-icon" id="theme-icon">☀️</span>
+            <span class="theme-text" id="theme-text">Light</span>
+          </button>
+        </div>
+        <a href="/auth/logout" class="logout-btn">Logout</a>
+      </div>
+    </div>
     <main>
       <%- body %>
     </main>
-    <%- include('../partials/_adminHeader') %>
   </div>
+  
+  <script src="/js/dark-mode.js"></script>
+  <script>
+    // Mobile sidebar toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebar = document.querySelector('.sidebar');
+      const headerTitle = document.querySelector('.header h1');
+      
+      if (sidebar && headerTitle) {
+        // Add mobile toggle functionality to header title
+        headerTitle.style.cursor = 'pointer';
+        headerTitle.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.toggle('active');
+          }
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+          if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+            if (!sidebar.contains(e.target) && !headerTitle.contains(e.target)) {
+              sidebar.classList.remove('active');
+            }
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

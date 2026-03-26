@@ -2,16 +2,16 @@
 <p><%= intro %></p>
 
 <!-- Search Bar -->
-<div class="search-container">
+<div class="search-container public-card">
   <input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
 </div>
 
 <!-- Filter Buttons -->
-<div class="filter-buttons">
-  <button class="filter-btn active" onclick="filterByCategory('all')">All</button>
-  <button class="filter-btn" onclick="filterByCategory('new')">New</button>
-  <button class="filter-btn" onclick="filterByCategory('popular')">Popular</button>
-  <button class="filter-btn" onclick="filterByCategory('sale')">On Sale</button>
+<div class="filter-buttons public-card">
+  <button class="filter-btn public-btn active" onclick="filterByCategory('all')">All</button>
+  <button class="filter-btn public-btn" onclick="filterByCategory('new')">New</button>
+  <button class="filter-btn public-btn" onclick="filterByCategory('popular')">Popular</button>
+  <button class="filter-btn public-btn" onclick="filterByCategory('sale')">On Sale</button>
 </div>
 
 <div class="products" id="productsContainer">

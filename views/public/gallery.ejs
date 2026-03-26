@@ -2,6 +2,8 @@
 
 <div class="gallery">
   <% images.forEach(image => { %>
-    <img src="/images/<%= image %>" alt="Gallery Image">
+    <div class="gallery-card public-card">
+      <img src="/images/<%= image %>" alt="Gallery Image">
+    </div>
   <% }); %>
 </div>

@@ -1,261 +1,631 @@
-<h1>Admin Dashboard</h1>
-<p>Welcome, <%= adminEmail %>!</p>
-
-<!-- SECTION A: OVERVIEW WIDGETS -->
-<!-- Widget Foundation: Each card has unique ID and data attributes for future Firestore integration -->
-<!-- Pattern: id="widget-{section}-{metric}" data-metric="{field}" data-source="firestore" data-collection="{collection}" -->
-<!-- Future: Connect to Firestore to auto-update values on this dashboard -->
-<div class="dashboard-section">
-  <h2>Overview</h2>
-  <div class="dashboard-grid">
-    <div class="card" id="widget-overview-products" data-metric="totalProducts" data-source="firestore" data-collection="products" data-field="count">
-      <h3>Total Products</h3>
-      <p class="stat-number"><%= totalProducts %></p>
-      <span class="stat-label">Active products</span>
+<!-- Admin Dashboard with Enhanced Centering and Visual Design -->
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <div class="welcome-section">
+      <h1 class="dashboard-title">Admin Dashboard</h1>
+      <p class="welcome-text">Welcome, <span class="admin-name"><%= adminEmail %></span></p>
     </div>
-    <div class="card" id="widget-overview-messages" data-metric="totalMessages" data-source="firestore" data-collection="messages" data-field="count">
-      <h3>Total Messages</h3>
-      <p class="stat-number"><%= totalMessages %></p>
-      <span class="stat-label">Contact form submissions</span>
-    </div>
-    <div class="card" id="widget-overview-categories" data-metric="totalCategories" data-source="firestore" data-collection="products" data-field="categories">
-      <h3>Total Categories</h3>
-      <p class="stat-number">4</p>
-      <span class="stat-label">Product categories</span>
-    </div>
-    <div class="card" id="widget-overview-admins" data-metric="totalAdmins" data-source="firestore" data-collection="users" data-field="role">
-      <h3>Total Admins</h3>
-      <p class="stat-number"><%= totalAdmins %></p>
-      <span class="stat-label">Active administrators</span>
+    <div class="dashboard-stats">
+      <div class="stat-mini">
+        <span class="stat-mini-label">Total Products</span>
+        <span class="stat-mini-value"><%= totalProducts %></span>
+      </div>
+      <div class="stat-mini">
+        <span class="stat-mini-label">Total Messages</span>
+        <span class="stat-mini-value"><%= totalMessages %></span>
+      </div>
+      <div class="stat-mini">
+        <span class="stat-mini-label">Total Admins</span>
+        <span class="stat-mini-value"><%= totalAdmins %></span>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- SECTION B: ENGAGEMENT WIDGETS -->
-<div class="dashboard-section">
-  <h2>Engagement Metrics</h2>
-  <div class="dashboard-grid">
-    <div class="card" id="widget-engagement-visitors" data-metric="todayVisitors" data-source="firestore" data-collection="analytics" data-field="visitorCount">
-      <h3>Today's Visitors</h3>
-      <p class="stat-number">342</p>
-      <span class="stat-label">Unique visitors</span>
+  <!-- SECTION A: OVERVIEW WIDGETS -->
+  <div class="dashboard-section">
+    <div class="section-header">
+      <h2 class="section-title">📊 Overview</h2>
+      <div class="section-subtitle">Key metrics and statistics</div>
     </div>
-    <div class="card" id="widget-engagement-weekly" data-metric="weeklyViews" data-source="firestore" data-collection="analytics" data-field="weeklyPageViews">
-      <h3>Weekly Page Views</h3>
-      <p class="stat-number">8,543</p>
-      <span class="stat-label">All pages combined</span>
-    </div>
-    <div class="card" id="widget-engagement-bounce" data-metric="bounceRate" data-source="firestore" data-collection="analytics" data-field="bounceRate">
-      <h3>Bounce Rate</h3>
-      <p class="stat-number">32%</p>
-      <span class="stat-label">Average bounce rate</span>
-    </div>
-    <div class="card" id="widget-engagement-conversion" data-metric="conversionRate" data-source="firestore" data-collection="analytics" data-field="conversionRate">
-      <h3>Conversion Rate</h3>
-      <p class="stat-number">4.2%</p>
-      <span class="stat-label">Purchase conversion</span>
+    <div class="dashboard-grid">
+      <div class="card card-primary" id="widget-overview-products" data-metric="totalProducts" data-source="firestore" data-collection="products" data-field="count">
+        <div class="card-icon">📦</div>
+        <div class="card-content">
+          <h3 class="card-title">Total Products</h3>
+          <p class="stat-number"><%= totalProducts %></p>
+          <span class="stat-label">Active products</span>
+        </div>
+      </div>
+      <div class="card card-info" id="widget-overview-messages" data-metric="totalMessages" data-source="firestore" data-collection="messages" data-field="count">
+        <div class="card-icon">💌</div>
+        <div class="card-content">
+          <h3 class="card-title">Total Messages</h3>
+          <p class="stat-number"><%= totalMessages %></p>
+          <span class="stat-label">Contact form submissions</span>
+        </div>
+      </div>
+      <div class="card card-success" id="widget-overview-categories" data-metric="totalCategories" data-source="firestore" data-collection="products" data-field="categories">
+        <div class="card-icon">📁</div>
+        <div class="card-content">
+          <h3 class="card-title">Total Categories</h3>
+          <p class="stat-number">4</p>
+          <span class="stat-label">Product categories</span>
+        </div>
+      </div>
+      <div class="card card-warning" id="widget-overview-admins" data-metric="totalAdmins" data-source="firestore" data-collection="users" data-field="role">
+        <div class="card-icon">👑</div>
+        <div class="card-content">
+          <h3 class="card-title">Total Admins</h3>
+          <p class="stat-number"><%= totalAdmins %></p>
+          <span class="stat-label">Active administrators</span>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- SECTION C: SHOP WIDGETS -->
-<div class="dashboard-section">
-  <h2>Shop Status</h2>
-  <div class="dashboard-grid">
-    <div class="card" id="widget-shop-featured" data-metric="featuredProducts" data-source="firestore" data-collection="products" data-field="featured">
-      <h3>Featured Products</h3>
-      <p class="stat-number">8</p>
-      <span class="stat-label">Highlighted items</span>
+  <!-- SECTION B: ENGAGEMENT WIDGETS -->
+  <div class="dashboard-section">
+    <div class="section-header">
+      <h2 class="section-title">📈 Engagement Metrics</h2>
+      <div class="section-subtitle">User interaction and analytics</div>
     </div>
-    <div class="card" id="widget-shop-hidden" data-metric="hiddenProducts" data-source="firestore" data-collection="products" data-field="active">
-      <h3>Hidden Products</h3>
-      <p class="stat-number">3</p>
-      <span class="stat-label">Inactive products</span>
-    </div>
-    <div class="card" id="widget-shop-discounted" data-metric="discountedProducts" data-source="firestore" data-collection="products" data-field="discount">
-      <h3>Discounted Products</h3>
-      <p class="stat-number" id="discounted-count">0</p>
-      <span class="stat-label">Items on sale</span>
-    </div>
-    <div class="card" id="widget-shop-outofstock\" data-metric=\"outOfStockProducts\" data-source=\"firestore\" data-collection=\"products\" data-field=\"stock\">
-      <h3>Out of Stock</h3>
-      <p class="stat-number\"><%= outOfStockProducts %></p>
-      <span class="stat-label\">Unavailable items</span>
+    <div class="dashboard-grid">
+      <div class="card card-purple" id="widget-engagement-visitors" data-metric="todayVisitors" data-source="firestore" data-collection="analytics" data-field="visitorCount">
+        <div class="card-icon">👥</div>
+        <div class="card-content">
+          <h3 class="card-title">Today's Visitors</h3>
+          <p class="stat-number">342</p>
+          <span class="stat-label">Unique visitors</span>
+        </div>
+      </div>
+      <div class="card card-blue" id="widget-engagement-weekly" data-metric="weeklyViews" data-source="firestore" data-collection="analytics" data-field="weeklyPageViews">
+        <div class="card-icon">📊</div>
+        <div class="card-content">
+          <h3 class="card-title">Weekly Page Views</h3>
+          <p class="stat-number">8,543</p>
+          <span class="stat-label">All pages combined</span>
+        </div>
+      </div>
+      <div class="card card-orange" id="widget-engagement-bounce" data-metric="bounceRate" data-source="firestore" data-collection="analytics" data-field="bounceRate">
+        <div class="card-icon">🔄</div>
+        <div class="card-content">
+          <h3 class="card-title">Bounce Rate</h3>
+          <p class="stat-number">32%</p>
+          <span class="stat-label">Average bounce rate</span>
+        </div>
+      </div>
+      <div class="card card-green" id="widget-engagement-conversion" data-metric="conversionRate" data-source="firestore" data-collection="analytics" data-field="conversionRate">
+        <div class="card-icon">💰</div>
+        <div class="card-content">
+          <h3 class="card-title">Conversion Rate</h3>
+          <p class="stat-number">4.2%</p>
+          <span class="stat-label">Purchase conversion</span>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- SECTION D: SYSTEM WIDGETS -->
-<div class="dashboard-section">
-  <h2>System Information</h2>
-  <div class="dashboard-grid">
-    <div class="card" id="widget-system-lastlogin" data-metric="lastLogin" data-source="firestore" data-collection="users" data-field="lastLogin">
-      <h3>Last Login</h3>
-      <p class="stat-text">2 hours ago</p>
-      <span class="stat-label">Your last session</span>
+  <!-- SECTION C: SHOP WIDGETS -->
+  <div class="dashboard-section">
+    <div class="section-header">
+      <h2 class="section-title">🛒 Shop Status</h2>
+      <div class="section-subtitle">Product and inventory management</div>
     </div>
-    <div class="card" id="widget-system-status" data-metric="systemStatus" data-source="firestore" data-collection="settings" data-field="status">
-      <h3>System Status</h3>
-      <p class="stat-status online">● Online</p>
-      <span class="stat-label">All systems operational</span>
-    </div>
-    <div class="card" id="widget-system-storage" data-metric="storageUsage" data-source="firestore" data-collection="settings" data-field="storageUsed">
-      <h3>Storage Usage</h3>
-      <p class="stat-number">2.4 GB</p>
-      <span class="stat-label">of 10 GB allocated</span>
-    </div>
-    <div class="card" id="widget-system-version" data-metric="versionNumber" data-source="firestore" data-collection="settings" data-field="version">
-      <h3>Version Number</h3>
-      <p class="stat-text">v1.0.0</p>
-      <span class="stat-label">Current system version</span>
+    <div class="dashboard-grid">
+      <div class="card card-featured" id="widget-shop-featured" data-metric="featuredProducts" data-source="firestore" data-collection="products" data-field="featured">
+        <div class="card-icon">⭐</div>
+        <div class="card-content">
+          <h3 class="card-title">Featured Products</h3>
+          <p class="stat-number">8</p>
+          <span class="stat-label">Highlighted items</span>
+        </div>
+      </div>
+      <div class="card card-muted" id="widget-shop-hidden" data-metric="hiddenProducts" data-source="firestore" data-collection="products" data-field="active">
+        <div class="card-icon">🙈</div>
+        <div class="card-content">
+          <h3 class="card-title">Hidden Products</h3>
+          <p class="stat-number">3</p>
+          <span class="stat-label">Inactive products</span>
+        </div>
+      </div>
+      <div class="card card-sale" id="widget-shop-discounted" data-metric="discountedProducts" data-source="firestore" data-collection="products" data-field="discount">
+        <div class="card-icon">🏷️</div>
+        <div class="card-content">
+          <h3 class="card-title">Discounted Products</h3>
+          <p class="stat-number" id="discounted-count">0</p>
+          <span class="stat-label">Items on sale</span>
+        </div>
+      </div>
+      <div class="card card-danger" id="widget-shop-outofstock" data-metric="outOfStockProducts" data-source="firestore" data-collection="products" data-field="stock">
+        <div class="card-icon">⚠️</div>
+        <div class="card-content">
+          <h3 class="card-title">Out of Stock</h3>
+          <p class="stat-number"><%= outOfStockProducts %></p>
+          <span class="stat-label">Unavailable items</span>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- QUICK ACTIONS -->
-<div class="quick-actions">
-  <h3>Quick Actions</h3>
-  <a href="/admin/products" class="btn btn-primary">📦 Manage Products</a>
-  <a href="/admin/discounts" class="btn btn-secondary">🏷️ Manage Discounts</a>
-  <a href="/admin/messages" class="btn btn-secondary">💌 View Messages</a>
-  <a href="/admin/content/home" class="btn btn-secondary">📝 Edit Homepage</a>
-  <a href="/admin/content/contact" class="btn btn-secondary">💬 Edit Contact Page</a>
-  <a href="/admin/content/settings" class="btn btn-secondary">📋 Edit Company Info</a>
-  <a href="/admin/settings" class="btn btn-secondary">⚙️ System Settings</a>
+  <!-- SECTION D: SYSTEM WIDGETS -->
+  <div class="dashboard-section">
+    <div class="section-header">
+      <h2 class="section-title">⚙️ System Information</h2>
+      <div class="section-subtitle">System health and configuration</div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="card card-system" id="widget-system-lastlogin" data-metric="lastLogin" data-source="firestore" data-collection="users" data-field="lastLogin">
+        <div class="card-icon">🕒</div>
+        <div class="card-content">
+          <h3 class="card-title">Last Login</h3>
+          <p class="stat-text">2 hours ago</p>
+          <span class="stat-label">Your last session</span>
+        </div>
+      </div>
+      <div class="card card-online" id="widget-system-status" data-metric="systemStatus" data-source="firestore" data-collection="settings" data-field="status">
+        <div class="card-icon">🟢</div>
+        <div class="card-content">
+          <h3 class="card-title">System Status</h3>
+          <p class="stat-status online">● Online</p>
+          <span class="stat-label">All systems operational</span>
+        </div>
+      </div>
+      <div class="card card-storage" id="widget-system-storage" data-metric="storageUsage" data-source="firestore" data-collection="settings" data-field="storageUsed">
+        <div class="card-icon">💾</div>
+        <div class="card-content">
+          <h3 class="card-title">Storage Usage</h3>
+          <p class="stat-number">2.4 GB</p>
+          <span class="stat-label">of 10 GB allocated</span>
+        </div>
+      </div>
+      <div class="card card-version" id="widget-system-version" data-metric="versionNumber" data-source="firestore" data-collection="settings" data-field="version">
+        <div class="card-icon">📋</div>
+        <div class="card-content">
+          <h3 class="card-title">Version Number</h3>
+          <p class="stat-text">v1.0.0</p>
+          <span class="stat-label">Current system version</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="quick-actions">
+    <div class="section-header">
+      <h3 class="section-title">⚡ Quick Actions</h3>
+      <div class="section-subtitle">Common administrative tasks</div>
+    </div>
+    <div class="actions-grid">
+      <a href="/admin/products" class="btn btn-primary btn-xl">
+        <span class="btn-icon">📦</span>
+        <span class="btn-text">Manage Products</span>
+      </a>
+      <a href="/admin/discounts" class="btn btn-secondary btn-xl">
+        <span class="btn-icon">🏷️</span>
+        <span class="btn-text">Manage Discounts</span>
+      </a>
+      <a href="/admin/messages" class="btn btn-success btn-xl">
+        <span class="btn-icon">💌</span>
+        <span class="btn-text">View Messages</span>
+      </a>
+      <a href="/admin/content/home" class="btn btn-warning btn-xl">
+        <span class="btn-icon">📝</span>
+        <span class="btn-text">Edit Homepage</span>
+      </a>
+      <a href="/admin/content/contact" class="btn btn-info btn-xl">
+        <span class="btn-icon">💬</span>
+        <span class="btn-text">Edit Contact Page</span>
+      </a>
+    </div>
+  </div>
 </div>
 
 <style>
-.dashboard-section {
+/* Enhanced Admin Dashboard Styles */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 3rem;
+  gap: 2rem;
 }
-.dashboard-section h2 {
-  color: #2c3e50;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
+
+.welcome-section {
+  flex: 2;
 }
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-.card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #3498db;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-.card h3 {
-  margin: 0 0 1rem 0;
-  color: #2c3e50;
-  font-size: 1rem;
-}
-.stat-number {
+
+.dashboard-title {
   font-size: 2.5rem;
-  font-weight: bold;
-  color: #3498db;
-  margin: 0.5rem 0;
+  color: var(--admin-text);
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
-.stat-text {
+
+.welcome-text {
+  font-size: 1.1rem;
+  color: var(--admin-muted);
+  margin: 0;
+}
+
+.admin-name {
+  color: var(--brand-primary);
+  font-weight: 600;
+}
+
+.dashboard-stats {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.stat-mini {
+  background: var(--bg-card);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  flex: 1;
+  border-left: 4px solid var(--brand-primary);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.stat-mini:hover {
+  background: var(--bg-hover);
+  transform: translateY(-2px);
+}
+
+.stat-mini-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-mini-value {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #2c3e50;
+  color: var(--admin-text);
+}
+
+/* Section Headers */
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  color: var(--admin-text);
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--admin-muted);
+  margin: 0;
+}
+
+/* Enhanced Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Enhanced Card Design */
+.card {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  border-left: 4px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--brand-primary);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2));
+}
+
+/* Card Color Variations */
+.card-primary { border-left-color: var(--brand-primary); }
+.card-info { border-left-color: var(--brand-info); }
+.card-success { border-left-color: var(--brand-success); }
+.card-warning { border-left-color: var(--brand-warning); }
+.card-danger { border-left-color: var(--brand-danger); }
+.card-purple { border-left-color: var(--brand-secondary); }
+.card-blue { border-left-color: var(--brand-primary); }
+.card-orange { border-left-color: var(--brand-warning); }
+.card-green { border-left-color: var(--brand-success); }
+.card-featured { border-left-color: var(--brand-warning); }
+.card-muted { border-left-color: var(--brand-muted); }
+.card-sale { border-left-color: var(--brand-danger); }
+.card-system { border-left-color: var(--brand-secondary); }
+.card-online { border-left-color: var(--brand-success); }
+.card-storage { border-left-color: var(--brand-muted); }
+.card-version { border-left-color: var(--brand-info); }
+
+/* Card Content Layout */
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  text-align: center;
+}
+
+.card-content {
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  color: var(--admin-text);
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--admin-text);
+  margin: 0.5rem 0;
+  line-height: 1;
+}
+
+.stat-text {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--admin-text);
   margin: 0.5rem 0;
 }
+
 .stat-label {
   display: block;
   font-size: 0.85rem;
-  color: #7f8c8d;
-  margin-top: 0.5rem;
-}
-.stat-status {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 0.5rem 0;
-}
-.stat-status.online {
-  color: #27ae60;
-}
-.quick-actions {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  margin-top: 3rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-.quick-actions h3 {
-  margin-top: 0;
-  color: #2c3e50;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 1rem;
-}
-.quick-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.quick-actions a {
-  display: inline-block;
-  margin: 0.5rem 0.5rem 0.5rem 0;
-}
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-.btn-primary {
-  background: #3498db;
-  color: white;
-}
-.btn-primary:hover {
-  background: #2980b9;
-}
-.btn-secondary {
-  background: #95a5a6;
-  color: white;
-}
-.btn-secondary:hover {
-  background: #7f8c8d;
+  color: var(--admin-muted);
+  margin-top: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
+.stat-status {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+}
+
+.stat-status.online {
+  color: var(--brand-success);
+}
+
+/* Quick Actions */
+.quick-actions {
+  background: var(--bg-card);
+  padding: 3rem;
+  border-radius: 16px;
+  margin-top: 3rem;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.quick-actions:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 56px;
+  text-align: left;
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-md);
+  border: 2px solid transparent;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  background: var(--gradient-primary);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--brand-primary-hover) 0%, var(--brand-primary-active) 100%);
+}
+
+.btn-secondary {
+  background: var(--gradient-muted);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #7f8c8d 0%, #6c7a89 100%);
+}
+
+.btn-icon {
+  font-size: 1.25rem;
+}
+
+.btn-text {
+  font-weight: 700;
+}
+
+.btn-lg {
+  font-size: 1.1rem;
+  padding: 1.25rem 2.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  
+  .welcome-section {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .dashboard-stats {
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .dashboard-title {
+    font-size: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
   .card {
-    background: #2c3e50;
-    color: #ecf0f1;
-    border-left-color: #3498db;
+    padding: 1.5rem;
+    margin: 0 auto;
+    max-width: 100%;
   }
-  .card h3 {
-    color: #ecf0f1;
+  
+  .stat-number {
+    font-size: 2.5rem;
   }
-  .stat-text {
-    color: #ecf0f1;
-  }
-  .stat-label {
-    color: #bdc3c7;
-  }
-  .dashboard-section h2 {
-    color: #ecf0f1;
-    border-bottom-color: #3498db;
-  }
+  
   .quick-actions {
-    background: #2c3e50;
-    color: #ecf0f1;
+    padding: 2rem 1rem;
+    margin: 2rem auto;
+    max-width: 100%;
   }
-  .quick-actions h3 {
-    color: #ecf0f1;
-    border-bottom-color: #3498db;
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+    margin: 0.5rem 0;
+  }
+  
+  /* Fix mobile spacing issues */
+  .dashboard-section {
+    margin-bottom: 2rem;
+  }
+  
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-title {
+    font-size: 1.75rem;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .card {
+    padding: 1rem;
+  }
+  
+  .dashboard-container {
+    padding: 0.5rem;
+  }
+  
+  .quick-actions {
+    padding: 1.5rem 0.5rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .dashboard-container {
+    color: var(--text-primary);
+  }
+  
+  .dashboard-title, .card-title, .section-title {
+    color: var(--text-primary);
+  }
+  
+  .welcome-text, .stat-label, .section-subtitle {
+    color: var(--text-secondary);
+  }
+  
+  .stat-number, .stat-text, .stat-mini-value {
+    color: var(--text-primary);
+  }
+  
+  .card {
+    background: var(--admin-card);
+    color: var(--text-primary);
+  }
+  
+  .quick-actions {
+    background: var(--admin-card);
+    color: var(--text-primary);
+  }
+  
+  .stat-mini {
+    background: var(--admin-card);
+    color: var(--text-primary);
   }
 }
 </style>
@@ -282,4 +652,4 @@
        const count = snap.docs.length;
        widget.querySelector('.stat-number').textContent = count;
      });
--->
+ -->
